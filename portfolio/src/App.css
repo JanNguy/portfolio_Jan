@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+button:active {
+    transform: translate(3px, 3px);
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.65);
+}
+
+.button_mov {
+    height: 60px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
