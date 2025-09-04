@@ -15,6 +15,24 @@ button:active {
   src: url(assets/fonts/Edwardian.ttf);
 }
 
+@font-face {
+  font-family: Mont-Extra-Light;
+  src: url(assets/fonts/Mont-ExtraLightDEMO.otf);
+}
+
+@font-face {
+  font-family: Mont-Mont-Heavy;
+  src: url(assets/fonts/Mont-HeavyDEMO.otf);
+}
+
+.montHeavy {
+    font-family: Mont-Mont-Heavy;
+}
+
+.montLight {
+    font-family:  Mont-Extra-Light;
+}
+
 .button_mov {
     height: 60px;
     margin-top: 10px;
@@ -24,13 +42,4 @@ button:active {
 .edwarian {
     font-family: "Edwarian";
     text-align: center;
-}
-
-.navBar {
-    font-family: "Edwarian";
-}
-
-.navBar:hover {
-    text-decoration: underline;
-    font-weight: bold;
 }
