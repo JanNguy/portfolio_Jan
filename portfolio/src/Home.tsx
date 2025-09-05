@@ -26,7 +26,7 @@ function Home() {
                         </Link>
                         </li>
                         <li>
-                        <Link to="IndexPage">
+                        <Link to="ProjectsPage">
                             <p className="edwarian text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-tight transition duration-150 ease-out hover:-translate-x-1 no-underline hover:underline decoration-[0.25px] underline-offset-5">
                                 Projects
                             </p>

@@ -163,7 +163,7 @@ function BlockApp() {
             </div>
 
             <div className="fixed bottom-10 left-1/2 -translate-x-1/2 flex">
-                <div className="flex flex-nowrap flex-col">
+                <div className="flex flex-nowrap flex-col ml-20">
                     <div className="flex flex-row flex-nowrap my-auto">
                         <input type="number" className="h-10 border-1 border-solid border-radius mx-3 border-slate-600 rounded-2xl text-black px-5" id="inputDiv1X" placeholder="Div1 départ X" onChange={handleChange("div1", "x")} />
                         <input type="number" className="border-1 border-solid mx-3 border-slate-600 rounded-2xl text-black px-5" id="inputDiv1Y" placeholder="Div1 départ Y" onChange={handleChange("div1", "y")}/>
@@ -190,14 +190,6 @@ function BlockApp() {
                         animate("div2", positionsDefault.div2, 500);
                     }}>
                         Réinitialiser
-                    </button>
-                </div>
-                <div className="flex flex-col my-auto">
-                    <button onClick={addDiv} className="bg-indigo-500 rounded w-20 h-10 my-5 mx-3" >
-                        + 1
-                    </button>
-                    <button onClick={minusDiv} className="bg-red-300 rounded w-20 h-10 my-5 mx-3">
-                        - 1
                     </button>
                 </div>
             </div>
