@@ -4,7 +4,6 @@ import BlockApp from "./blockApp"
 import ContactPage from "./ContactPage";
 import ProjectsPage from "./ProjectPage";
 import './App.css';
-
 export const router = createBrowserRouter([
     {path: "/", element: <Home/>},
     {path: "blockFristApp", element: <BlockApp/>},
@@ -13,5 +12,5 @@ export const router = createBrowserRouter([
 ])
 
 export default function App() {
-  return <RouterProvider router={router} />;
+    return <RouterProvider router={router} />;
 }
