@@ -1,26 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Iframe from 'react-iframe'
 import "./App.css";
 
 function ContactPage() {
-    let [overD1, setOverD1] = React.useState<string>("invisible");
-    let [overD2, setOverD2] = React.useState<string>("invisible");
-    let [overD3, setOverD3] = React.useState<string>("invisible");
     let [overD4, setOverD4] = React.useState<string>("invisible");
     let [overD5, setOverD5] = React.useState<string>("invisible");
     let [overD6, setOverD6] = React.useState<string>("invisible");
     const [selected, setSelected] = React.useState<number | null>(null);
 
-    const hideAll = () => { setOverD1("invisible"); setOverD2("invisible"); setOverD3("invisible"); setOverD4("invisible"); setOverD5("invisible"); setOverD6("invisible"); };
+    const hideAll = () => { setOverD4("invisible"); setOverD5("invisible"); setOverD6("invisible"); };
 
     const onOver = (n: number) => {
         if (selected !== null) return;
         hideAll();
         switch (n) {
-        case 1: setOverD1("visible"); break;
-        case 2: setOverD2("visible"); break;
-        case 3: setOverD3("visible"); break;
         case 4: setOverD4("visible"); break;
         case 5: setOverD5("visible"); break;
         case 6: setOverD6("visible"); break;
@@ -30,16 +23,12 @@ function ContactPage() {
     const onOut = (n: number) => {
         if (selected !== null) return;
         switch (n) {
-        case 1: setOverD1("invisible"); break;
-        case 2: setOverD2("invisible"); break;
-        case 3: setOverD3("invisible"); break;
         case 4: setOverD4("invisible"); break;
         case 5: setOverD5("invisible"); break;
         case 6: setOverD6("invisible"); break;
         }
     };
 
-    // Clic: toggle la sélection
     const onClickIcon = (n: number) => {
         if (selected === n) {
         setSelected(null);
@@ -59,52 +48,58 @@ function ContactPage() {
         <p className="edwarian text-9xl">Contact</p>
         <div className="flex flex-row flex-nowrap w-screen h-auto">
           <div className="flex flex-col flex-nowrap">
-            <div className="flex flex-nowrap flex-row w-[30vh] h-auto">
-              <section className="mt-4 border-1 border-solid border-stone-600 mx-7 p-2 h-[12vh]">
-                <div className="flex flex-row gap-4 mb-4">
-                    <img onMouseOver={() => onOver(1)} onMouseOut={() => onOut(1)} onClick={() => onClickIcon(1)} src="/linkedin-logo.svg" alt="linkedin-logo" className="w-8 h-8 transition duration-150 ease-out hover:translate-1 cursor-pointer" />
-                    <img onMouseOver={() => onOver(2)} onMouseOut={() => onOut(2)} onClick={() => onClickIcon(2)} src="/linkedin-logo.svg" alt="linkedin-logo" className="w-8 h-8 transition duration-150 ease-out hover:translate-1 cursor-pointer" />
-                    <img onMouseOver={() => onOver(3)} onMouseOut={() => onOut(3)} onClick={() => onClickIcon(3)} src="/linkedin-logo.svg" alt="linkedin-logo" className="w-8 h-8 transition duration-150 ease-out hover:translate-1 cursor-pointer" />
-                </div>
+            <div className="flex flex-nowrap flex-row w-[30vh] h-auto ">
+              <section className="mt-4 border-1 border-solid border-stone-600 mx-7 p-2 h-[6vh]">
                 <div className="flex flex-row gap-4">
-                    <img onMouseOver={() => onOver(4)} onMouseOut={() => onOut(4)} onClick={() => onClickIcon(4)} src="/linkedin-logo.svg" alt="linkedin-logo" className="w-8 h-8 transition duration-150 ease-out hover:translate-1 cursor-pointer" />
-                    <img onMouseOver={() => onOver(5)} onMouseOut={() => onOut(5)} onClick={() => onClickIcon(5)} src="/linkedin-logo.svg" alt="linkedin-logo" className="w-8 h-8 transition duration-150 ease-out hover:translate-1 cursor-pointer" />
-                    <img onMouseOver={() => onOver(6)} onMouseOut={() => onOut(6)} onClick={() => onClickIcon(6)} src="/linkedin-logo.svg" alt="linkedin-logo" className="w-8 h-8 transition duration-150 ease-out hover:translate-1 cursor-pointer" />
+                    <img onMouseOver={() => onOver(4)} onMouseOut={() => onOut(4)} onClick={() => onClickIcon(4)} src="/X_logo_2023.svg" alt="X" className="w-8 h-8 transition duration-150 ease-out hover:translate-1 cursor-pointer" />
+                    <img onMouseOver={() => onOver(5)} onMouseOut={() => onOut(5)} onClick={() => onClickIcon(5)} src="/linkedin.svg" alt="linkedin-logo" className="w-8 h-8 transition duration-150 ease-out hover:translate-1 cursor-pointer" />
+                    <img onMouseOver={() => onOver(6)} onMouseOut={() => onOut(6)} onClick={() => onClickIcon(6)} src="/github-mark.svg" alt="github" className="w-8 h-8 transition duration-150 ease-out hover:translate-1 cursor-pointer" />
                 </div>
               </section>
             </div>
             <div className="flex flex-nowrap items-center ml-5 mt-2 transition duration-150 ease-out hover:translate-x-1 no-underline flex-row">
                 <p className="mt-3">←</p>
                 <Link to="/" className="edwarian mt-3 ml-2 text-5xl hover:underline decoration-[0.25px] underline-offset-5">Back</Link>
-                {selected !== null}
             </div>
           </div>
-            <div className="flex-1 ml-[10px]">
-                <div className="relative h-[30vh] w-fuloverflow-hidden"> {/* use ifrma for preview */}
-                    <div className={`absolute inset-0 ${vis(1, overD1)} flex items-center justify-center border-solid border-1 border-black h-[80vh] w-[97%]`}>
-                        <Iframe url="/blockFristApp" height="100%" width="100%" title="LinkedIn Profile"/>
+            <div className="flex-1 ml-[10px] mr-10">
+                <div className="relative h-[30vh] w-full overflow-hidden">
+                    <div className={`absolute inset-0 ${vis(4, overD4)} flex items-center justify-start border-solid border-1 border-black cursor-pointer`} onClick={() => window.open('https://x.com/JanNguy74478827', '_blank')}>
+                        <img className="h-[20vh] w-[20vh] rounded ml-10" src="https://pbs.twimg.com/profile_images/1966466595913396224/k2cHSvN1_400x400.jpg" alt="XPic" />
+                        <div className="flex flex-col ml-4">
+                            <p className="text-6xl">Jan</p>
+                            <p>@JanNguy74478827</p>
+                            <img className="h-[2vh] w-[2vh]" src="https://abs-0.twimg.com/emoji/v2/svg/1f937-200d-2642-fe0f.svg" alt="bioX" />
+                        </div>
                     </div>
-                    <div className={`absolute inset-0 ${vis(2, overD2)} flex items-center justify-center border-solid border-1 border-black`}>
-                        <p>placeholder</p>
+                    <div className={`absolute inset-0 ${vis(5, overD5)} flex items-center justify-start cursor-pointer border-1 border-black border-solid`} onClick={() => window.open('https://www.linkedin.com/in/jan-nguyen-0aa40b315/', '_blank')}>
+                        <div className="relative w-[100%] h-[98%] overflow-hidden shadow-lg bg-white mt-5 mb-5 mr-1 ml-1">
+                            <div>
+                                <img className="w-full h-24 object-cover" src="https://media.licdn.com/dms/image/v2/D4E16AQGkHRpqXc8IsQ/profile-displaybackgroundimage-shrink_350_1400/profile-displaybackgroundimage-shrink_350_1400/0/1733853178161?e=1760572800&v=beta&t=5vuskmSKmJmXK38iSLM9MAZwjb9BZgPCqAkZIZ3Ps9o" alt="Image de fond LinkedIn" />
+                            </div>
+                            <div className="absolute top-12 left-4">
+                                <img className="rounded-full h-24 w-24 border-4 border-white" src="https://media.licdn.com/dms/image/v2/D4E03AQG0cRXvsaJcLA/profile-displayphoto-shrink_400_400/B4EZOxsZs0HAAg-/0/1733853028575?e=1760572800&v=beta&t=k6G_CEN1_92OT0d4nvKOOIgv8HdKNw_fL_OPP8WbFyY" alt="Photo de profil LinkedIn" />
+                            </div>
+                            <div className="p-4">
+                                <div className="h-10"></div>
+                                <p className="text-2xl font-bold">Jan Nguyen</p>
+                                <p className="text-gray-500">Développeur Front-End</p>
+                            </div>
+                        </div>
                     </div>
-                    <div className={`absolute inset-0 ${vis(3, overD3)} flex items-center justify-center border-solid border-1 border-black`}>
-                        <p className="p-3">placeholder D3</p>
-                    </div>
-                    <div className={`absolute inset-0 ${vis(4, overD4)} flex items-center justify-center border-solid border-1 border-black`}>
-                        <p className="p-3">placeholder D4</p>
-                    </div>
-                    <div className={`absolute inset-0 ${vis(5, overD5)} flex items-center justify-center border-solid border-1 border-black`}>
-                        <p className="p-3">placeholder D5</p>
-                    </div>
-                    <div className={`absolute inset-0 ${vis(6, overD6)} flex items-center justify-center border-solid border-1 border-black`}>
-                        <p className="p-3">placeholder D6</p>
+                    <div className={`absolute inset-0 ${vis(4, overD6)} flex items-center justify-start border-solid border-1 border-black cursor-pointer`} onClick={() => window.open('https://github.com/JanNguy', '_blank')}>
+                        <img className="h-[20vh] w-[20vh] rounded ml-10" src="https://avatars.githubusercontent.com/u/75522312?v=4" alt="githubPic" />
+                        <div className="flex flex-col ml-4">
+                            <p className="text-6xl">Jan</p>
+                            <p>JanNguy</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
       </div>
     </>
-  );
+  )
 }
 
 export default ContactPage;
