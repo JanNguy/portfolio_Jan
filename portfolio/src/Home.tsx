@@ -41,7 +41,7 @@ function Home() {
                     <p>Born in Lyon, France to an engineer father and a nurse mother, I quickly developed an interest in computers.<br/> I am following the Grande École course at EPITECH and am pursuing an ever-greater future.</p>
                 </div>
             </div>
-            <footer className="flex flex-row flex-nowrap space-x-100 justify-center m-10">
+            <footer className="h-[20vh] w-full flex flex-row flex-nowrap space-x-100 justify-center p-10">
                 <div className="flex flex-col flex-nowrap space-y-2">
                     <a href="https://github.com/JanNguy"><p className="text-xl leading-tight transition duration-150 ease-out hover:underline decoration-[0.25px] underline-offset-5">Github</p></a>
                     <Link to="ContactPage" className="hover:underline"><p className="text-xl leading-tight transition duration-150 ease-out hover:underline decoration-[0.25px] underline-offset-5-xl">Contact</p></Link>
