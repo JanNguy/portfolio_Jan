@@ -23,12 +23,8 @@ function BlockApp() {
     const [screenWidth] = useState(window.innerWidth);
     const [screenHeight] = useState(window.innerHeight);
     const [draggingDiv, setDraggingDiv] = useState<DivId|null>(null);
-    const [divIds, setDivIds] = useState<number[]>([]);
-    const [idDivNb, setIdDivNb] = useState(0);
 
-    const [nbDiv, setNbDiv] = useState(0);
-
-    const handleMouseDown = (divId: DivId) => (e: React.MouseEvent) => {
+    const handleMouseDown = (divId: DivId) => (_e: React.MouseEvent) => {
         setDraggingDiv(divId);
     };
 
@@ -126,15 +122,6 @@ function BlockApp() {
             });
         };
     }, []);
-
-    function minusDiv() {
-        setDivIds(prev => prev.length > 0 ? prev.slice(0, -1) : prev);
-    }
-
-    const addDiv = () => {
-        setIdDivNb(prev => prev + 1);
-        setDivIds(prev => [...prev, idDivNb + 1]);
-    };
 
     return (
         <>

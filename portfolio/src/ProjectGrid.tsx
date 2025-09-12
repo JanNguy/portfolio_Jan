@@ -42,7 +42,7 @@ const projects: ProjectBase[] = [
     },
 ];
 
-function ProjectCard({ id, title, pathImg, description, url }: ProjectBase) {
+function ProjectCard({ title, pathImg, description, url }: ProjectBase) {
     return (
         <div className="p-5 h-[60vh] w-[40vh] border border-stone-600 rounded flex flex-col">
             <div className="h-[40%] w-full border flex items-center justify-center overflow-hidden">
