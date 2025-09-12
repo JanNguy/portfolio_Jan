@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./Home"
-import BlockApp from "./blockApp"
+import BlockApp from "./BlockApp";
 import ContactPage from "./ContactPage";
 import ProjectsPage from "./ProjectPage";
 import './App.css';

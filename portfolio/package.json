@@ -11,8 +11,6 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
-    "@tsparticles/react": "^3.0.0",
-    "@tsparticles/slim": "^3.9.1",
     "@types/react-router-dom": "^5.3.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
