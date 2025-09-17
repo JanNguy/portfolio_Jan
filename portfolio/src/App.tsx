@@ -3,12 +3,16 @@ import Home from "./Home"
 import BlockApp from "./BlockApp";
 import ContactPage from "./ContactPage";
 import ProjectsPage from "./ProjectPage";
+import { AboutMe } from "./AboutMe";
 import './App.css';
+
+
 export const router = createBrowserRouter([
     {path: "/", element: <Home/>},
     {path: "blockFristApp", element: <BlockApp/>},
     {path: "ContactPage", element: <ContactPage/>},
-    {path: "ProjectsPage", element: <ProjectsPage/>}
+    {path: "ProjectsPage", element: <ProjectsPage/>},
+    {path: "AboutMe", element: <AboutMe/>}
 ])
 
 export default function App() {

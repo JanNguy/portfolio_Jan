@@ -25,16 +25,18 @@ function ProjectsPage() {
                         <span className='edwarian text-5xl'>Back</span>
                     </Link>
                 </div>
-                <div className='h-[60vh] w-[55vh] mx-auto mt-8 mb-7 flex flex-row'>
-                    <p onClick={cardSwitchM} className='my-auto text-2xl font-bold mr-10'>&lt;</p>
-                    <ProjectsGrid selectedId={nb}/>
-                    <p onClick={cardSwitchP} className='my-auto text-2xl font-bold ml-10'>&gt;</p>
+                <div className='mx-auto mt-8 mb-7 flex flex-row justify-center items-center'>
+                    <p onClick={cardSwitchM} className='my-auto text-2xl font-bold mr-10 transition duration-150 ease-out hover:-translate-x-1'>&lt;</p>
+                    <div className="flex justify-center">
+                        <ProjectsGrid ids={[nb]}/>
+                    </div>
+                    <p onClick={cardSwitchP} className='my-auto text-2xl font-bold ml-10 transition duration-150 ease-out hover:translate-x-1'>&gt;</p>
                 </div>
                 <footer className="bg-white border-t border-gray-200 mt-3">
                     <div className="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 lg:px-8">
                         <div className="flex flex-col items-center gap-8 sm:flex-row sm:justify-between">
                             <div className="flex justify-center text-gray-900 sm:justify-start">
-                                <p className="edwarian text-2xl font-bold">Jan Nguyen</p>
+                                <p className="text-2xl font-bold">Jan Nguyen</p>
                             </div>
                             <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 md:gap-8">
                                 <Link to="/" className={"text-base text-gray-500 transition hover:text-gray-900"}>
