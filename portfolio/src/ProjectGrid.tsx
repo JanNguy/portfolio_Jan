@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
   animate,
   motion,
@@ -111,44 +111,46 @@ export interface ProjectsGridProps {
   query?: string;
 }
 
-function ProjectsGrid({ ids, limit, query }: ProjectsGridProps) {
+function ProjectsGrid() {
     const ref = useRef<HTMLDivElement | null>(null);
     const { scrollXProgress } = useScroll({ container: ref });
     const maskImage = useScrollOverflowMask(scrollXProgress);
+    const [x, setX] = useState<number>(1);
+    const MAX_ID = 3;
+    const MIN_ID = 1;
 
     let list = projects.slice();
 
-    if (ids?.length) {
-        const set = new Set(ids);
-        list = list.filter((p) => set.has(p.id));
+    function cardSwitchP() {
+        setX(prev => (prev >= MAX_ID ? MIN_ID : prev + 1));
     }
 
-    if (query && query.trim()) {
-        const q = query.toLowerCase();
-        list = list.filter(
-        (p) => p.title.toLowerCase().includes(q) || p.description.toLowerCase().includes(q)
-        );
-    }
-
-    if (typeof limit === "number") {
-        list = list.slice(0, Math.max(0, limit));
+    function cardSwitchM() {
+        setX(prev => (prev <= MIN_ID ? MAX_ID : prev - 1));
     }
 
     return (
-        <section className="w-full px-4">
-        <motion.div
-            ref={ref}
-            style={{ maskImage, WebkitMaskImage: maskImage }}
-            className="max-w-115 flex gap-5 justify-center overflow-x-auto pb-4 snap-x snap-mandatory"
-        >
-            <div className="shrink-0 basis-[10vw]" />
-            {list.map((project) => (
-            <div key={project.id} className="flex-shrink-0 min-w-[45vh] snap-center">
-                <ProjectCard {...project} />
-            </div>
-            ))}
-        </motion.div>
-        </section>
+        <>
+            <p onClick={cardSwitchM} className='my-auto text-2xl font-bold mr-5 transition duration-150 ease-out hover:-translate-x-1'>&lt;</p>
+            <section className="w-full">
+            <motion.div
+                ref={ref}
+                style={{ maskImage, WebkitMaskImage: maskImage }}
+                className="max-w-115 flex gap-5 justify-center overflow-x-auto pb-4 pl-65 snap-x snap-mandatory"
+            >
+                <div className="shrink-0 basis-[10vw]" />
+                {list.map((project) => (
+                <motion.div
+                className="flex-shrink-0 min-w-[45vh] snap-center"
+                animate={{x: `${(x - 1) * -45}vh`}}
+                transition={{ duration: 0.4, ease: "easeInOut" }}>
+                    <ProjectCard {...project} />
+                </motion.div>
+                ))}
+            </motion.div>
+            </section>
+            <p onClick={cardSwitchP} className='my-auto text-2xl font-bold ml-5 transition duration-150 ease-out hover:translate-x-1'>&gt;</p>
+    </>
   );
 }
 

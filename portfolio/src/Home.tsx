@@ -16,6 +16,7 @@ function Home() {
                         <Link to="ContactPage"><p className="text-6xl">Contact me</p></Link>
                     </div>
                 </div> */}
+                <p className="text-9xl">placeholder</p>
             </div>
             <div className="h-screen bg-gray-100 flex justify-center items-center w-auto"> {/* mettre en fond un effet 3D de nuage ou quelque chose du genre à effet de particle */}
                 <div className="h-[70vh] bg-gray-100 flex justify-center w-auto flex-col items-start">
