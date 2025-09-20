@@ -10,7 +10,6 @@ function ProjectsPage() {
                 <div className='mt-8 ml-12'>
                     <Link to="/" className='flex flex-row flex-nowrap items-center transition duration-150 ease-out hover:-translate-x-1 no-underline text-stone-800'>
                         <span className='text-2xl mr-3'>←</span>
-                        <span className='edwarian text-5xl'>Back</span>
                     </Link>
                 </div>
                 <div className='mx-auto mt-16 mb-16 flex flex-row justify-center items-center'>
