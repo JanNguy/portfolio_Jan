@@ -8,26 +8,65 @@ function Home() {
         <div className="bg-white">
             <NavBar/>
             <div className="flex flex-row flex-nowrap w-full h-screen">
-                {/* <div className="w-full h-screen border-1 border-solid flex flex-row">
-                    <div className="w-[60vh] h-[55% justify-start my-auto transform -translate-y-30">
-                        <p className="edwarian text-9xl text-start">Jan Nguyen</p>
+                <div className="flex w-full h-full items-center justify-center px-6 mx-auto">
+                    <div className="max-w-4xl w-full">
+                        <div className="space-y-6">
+                            <div className="space-y-3">
+                                <p className="text-gray-600 font-medium text-sm tracking-wide uppercase">
+                                    Full Stack Developer
+                                </p>
+                                <h1 className="montHeavy text-5xl md:text-6xl lg:text-7xl leading-tight text-gray-900">
+                                    Hi, I'm{" "}
+                                    <span className="relative inline-block group">
+                                        <span className="text-gray-900 group-hover:text-gray-700 transition-colors duration-300">
+                                            Jan
+                                        </span>
+                                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 group-hover:w-full transition-all duration-500 ease-out"></span>
+                                    </span>
+                                </h1>
+                            </div>
+
+                            <p className="text-lg md:text-xl text-gray-600 max-w-2xl leading-relaxed">
+                                I craft modern web applications that blend performance, design and user experience.
+                            </p>
+
+                            <div className="flex flex-wrap gap-3 pt-2">
+                                <Link
+                                    to="/ProjectsPage"
+                                    className="inline-flex items-center gap-2 bg-gray-900 px-6 py-3 rounded-lg text-white font-medium hover:bg-gray-800 transition-colors duration-200"
+                                >
+                                    View Projects
+                                </Link>
+                                <Link
+                                    to="/ContactPage"
+                                    className="inline-flex items-center gap-2 border border-gray-300 px-6 py-3 rounded-lg text-gray-900 font-medium hover:border-gray-400 hover:bg-gray-50 transition-all duration-200"
+                                >
+                                    Get In Touch
+                                </Link>
+                            </div>
+                        </div>
                     </div>
-                    <div className="flex border-1 border-solid justify-center items-center ml-auto mr-5 my-auto p-2 rounded-2xl">
-                        <Link to="ContactPage"><p className="text-6xl">Contact me</p></Link>
-                    </div>
-                </div> */}
-                <p className="text-9xl">placeholder</p>
-            </div>
-            <div className="h-screen bg-gray-100 flex justify-center items-center w-auto"> {/* mettre en fond un effet 3D de nuage ou quelque chose du genre à effet de particle */}
-                <div className="h-[70vh] bg-gray-100 flex justify-center w-auto flex-col items-start">
-                    <p className="montHeavy text-7xl text-shadow-lg">Who am I?</p>
-                    <p className="text-base md:text-lg leading-relaxed text-gray-700">
-                        Born in Lyon, France, to an engineer father and a nurse mother, I quickly developed an interest in computers.<br/>
-                        My journey started on Discord playing Minecraft <a className="hover:text-blue-400 underline-none hover:underline"href="https://youtu.be/ynm_qSv8K1o">[Here]</a> and now I am striving to make a name for myself in computer science.<br/>
-                        I am currently enrolled in the Grande École program at EPITECH, pursuing a promising future in the field.
-                    </p>
                 </div>
             </div>
+            <div className="min-h-screen bg-gray-50 flex justify-center items-center w-auto">
+                <div className="max-w-4xl w-full px-8 py-16 flex flex-col items-start space-y-12">
+                    <h1 className="montHeavy text-6xl md:text-7xl text-gray-900 leading-tight">
+                        Who am I?
+                    </h1>
+                    <div className="space-y-8 max-w-3xl">
+                        <p className="text-xl md:text-2xl leading-relaxed text-gray-700 font-light">
+                            Born in Lyon, France, to an engineer father and a nurse mother, I quickly developed an interest in computers.
+                        </p>
+                        <p className="text-xl md:text-2xl leading-relaxed text-gray-700 font-light">
+                            My journey started on Discord playing Minecraft <a className="text-gray-900 font-medium hover:text-gray-600 transition-colors duration-200 underline decoration-1 underline-offset-4" href="https://youtu.be/ynm_qSv8K1o">[Here]</a> and now I am striving to make a name for myself in computer science.
+                        </p>
+                        <p className="text-xl md:text-2xl leading-relaxed text-gray-700 font-light">
+                            I am currently enrolled in the Grande École program at EPITECH, pursuing a promising future in the field.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
             {/* <footer className="h-[20vh] w-full flex flex-row flex-nowrap space-x-100 justify-center p-10">
                 <div className="flex flex-col flex-nowrap space-y-2">
                     <a href="https://github.com/JanNguy"><p className="text-xl leading-tight transition duration-150 ease-out hover:underline decoration-[0.25px] underline-offset-5">Github</p></a>

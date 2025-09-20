@@ -3,103 +3,122 @@ import { Link } from "react-router-dom";
 import "./App.css";
 
 function ContactPage() {
-    let [overD4, setOverD4] = React.useState<string>("invisible");
-    let [overD5, setOverD5] = React.useState<string>("invisible");
-    let [overD6, setOverD6] = React.useState<string>("invisible");
-    const [selected, setSelected] = React.useState<number | null>(null);
+    const [hoveredId, setHoveredId] = React.useState<number | null>(null);
+    const [selectedId, setSelectedId] = React.useState<number | null>(null);
 
-    const hideAll = () => { setOverD4("invisible"); setOverD5("invisible"); setOverD6("invisible"); };
-
-    const onOver = (n: number) => {
-        if (selected !== null) return;
-        hideAll();
-        switch (n) {
-        case 4: setOverD4("visible"); break;
-        case 5: setOverD5("visible"); break;
-        case 6: setOverD6("visible"); break;
+    const handleMouseOver = (id: number) => {
+        if (selectedId === null) {
+            setHoveredId(id);
         }
     };
 
-    const onOut = (n: number) => {
-        if (selected !== null) return;
-        switch (n) {
-        case 4: setOverD4("invisible"); break;
-        case 5: setOverD5("invisible"); break;
-        case 6: setOverD6("invisible"); break;
+    const handleMouseOut = () => {
+        if (selectedId === null) {
+            setHoveredId(null);
         }
     };
 
-    const onClickIcon = (n: number) => {
-        if (selected === n) {
-        setSelected(null);
-        hideAll();
+    const handleClick = (id: number) => {
+        if (selectedId === id) {
+            setSelectedId(null);
+            setHoveredId(null);
         } else {
-        setSelected(n);
-        hideAll();
-        onOver(n);
+            setSelectedId(id);
+            setHoveredId(id);
         }
     };
 
-  const vis = (n: number, over: string) => (selected === n ? "visible" : over);
+    const isVisible = (id: number) => hoveredId === id || selectedId === id;
 
-  return (
-    <>
-      <div className="flex flex-nowrap flex-col justify-start items-start">
-        <p className="edwarian text-9xl">Contact</p>
-        <div className="flex flex-row flex-nowrap w-screen h-auto">
-          <div className="flex flex-col flex-nowrap">
-            <div className="flex flex-nowrap flex-row w-[30vh] h-auto">
-              <section className="mt-4 border-1 border-solid border-stone-600 ml-15 p-2 h-[6vh]">
-                <div className="flex flex-row gap-4">
-                    <img onMouseOver={() => onOver(4)} onMouseOut={() => onOut(4)} onClick={() => onClickIcon(4)} src="/X_logo_2023.svg" alt="X" className="w-8 h-8 transition duration-150 ease-out hover:translate-1 cursor-pointer" />
-                    <img onMouseOver={() => onOver(5)} onMouseOut={() => onOut(5)} onClick={() => onClickIcon(5)} src="/linkedin.svg" alt="linkedin-logo" className="w-8 h-8 transition duration-150 ease-out hover:translate-1 cursor-pointer" />
-                    <img onMouseOver={() => onOver(6)} onMouseOut={() => onOut(6)} onClick={() => onClickIcon(6)} src="/github-mark.svg" alt="github" className="w-8 h-8 transition duration-150 ease-out hover:translate-1 cursor-pointer" />
-                </div>
-              </section>
-            </div>
-            <div className="flex flex-nowrap items-center ml-10 mt-2 transition duration-150 ease-out hover:translate-x-1 no-underline flex-row">
-                <p className="mt-3">←</p>
-                <Link to="/" className="edwarian mt-3 ml-2 text-5xl hover:underline decoration-[0.25px] underline-offset-5">Back</Link>
-            </div>
-          </div>
-            <div className="flex-1 ml-[10px] mr-40 mt-4">
-                <div className="relative h-[30vh] w-full overflow-hidden">
-                    <div className={`absolute inset-0 ${vis(4, overD4)} flex items-center justify-start border-solid border-1 border-black cursor-pointer`} onClick={() => window.open('https://x.com/JanNguy74478827', '_blank')}>
-                        <img className="h-[20vh] w-[20vh] rounded ml-10" src="https://pbs.twimg.com/profile_images/1966466595913396224/k2cHSvN1_400x400.jpg" alt="XPic" />
-                        <div className="flex flex-col ml-4">
-                            <p className="text-6xl">Jan</p>
-                            <p>@JanNguy74478827</p>
-                            <img className="h-[2vh] w-[2vh]" src="https://abs-0.twimg.com/emoji/v2/svg/1f937-200d-2642-fe0f.svg" alt="bioX" />
-                        </div>
-                    </div>
-                    <div className={`absolute inset-0 ${vis(5, overD5)} flex items-center justify-start cursor-pointer border-1 border-black border-solid`} onClick={() => window.open('https://www.linkedin.com/in/jan-nguyen-0aa40b315/', '_blank')}>
-                        <div className="relative w-[100%] h-[98%] overflow-hidden shadow-lg bg-white mt-5 mb-5 mr-1 ml-1">
-                            <div>
-                                <img className="w-full h-24 object-cover" src="https://media.licdn.com/dms/image/v2/D4E16AQGkHRpqXc8IsQ/profile-displaybackgroundimage-shrink_350_1400/profile-displaybackgroundimage-shrink_350_1400/0/1733853178161?e=1760572800&v=beta&t=5vuskmSKmJmXK38iSLM9MAZwjb9BZgPCqAkZIZ3Ps9o" alt="Image de fond LinkedIn" />
-                            </div>
-                            <div className="absolute top-12 left-4">
-                                <img className="rounded-full h-24 w-24 border-4 border-white" src="https://media.licdn.com/dms/image/v2/D4E03AQG0cRXvsaJcLA/profile-displayphoto-shrink_400_400/B4EZOxsZs0HAAg-/0/1733853028575?e=1760572800&v=beta&t=k6G_CEN1_92OT0d4nvKOOIgv8HdKNw_fL_OPP8WbFyY" alt="Photo de profil LinkedIn" />
-                            </div>
-                            <div className="p-4">
-                                <div className="h-10"></div>
-                                <p className="text-2xl font-bold">Jan Nguyen</p>
-                                <p className="text-gray-500">Développeur Free-lance</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className={`absolute inset-0 ${vis(6, overD6)} flex items-center justify-start border-solid border-1 border-black cursor-pointer`} onClick={() => window.open('https://github.com/JanNguy', '_blank')}>
-                        <img className="h-[20vh] w-[20vh] rounded ml-10" src="https://avatars.githubusercontent.com/u/75522312?v=4" alt="githubPic" />
-                        <div className="flex flex-col ml-4">
-                            <p className="text-6xl">Jan</p>
-                            <p>JanNguy</p>
+    const socialLinks = [
+        {
+            id: 1,
+            name: "X",
+            icon: "/X_logo_2023.svg",
+            url: "https://x.com/JanNguy74478827",
+            component: (
+                <div className="w-[600px] h-[250px] rounded-2xl shadow-2xl overflow-hidden bg-white cursor-pointer" onClick={() => window.open('https://x.com/JanNguy74478827', '_blank')}>
+                    <div className="flex items-center p-8">
+                        <img className="h-32 w-32 rounded-full" src="https://pbs.twimg.com/profile_images/1966466595913396224/k2cHSvN1_400x400.jpg" alt="Photo de profil X" />
+                        <div className="ml-6">
+                            <p className="text-4xl font-bold text-gray-800">Jan</p>
+                            <p className="text-2xl text-gray-500">@JanNguy74478827</p>
                         </div>
                     </div>
                 </div>
+            )
+        },
+        {
+            id: 2,
+            name: "LinkedIn",
+            icon: "/linkedin.svg",
+            url: "https://www.linkedin.com/in/jan-nguyen-0aa40b315/",
+            component: (
+                <div className="w-[600px] rounded-2xl shadow-2xl overflow-hidden bg-white cursor-pointer" onClick={() => window.open('https://www.linkedin.com/in/jan-nguyen-0aa40b315/', '_blank')}>
+                    <div className="relative">
+                        <img className="w-full h-40 object-cover" src="https://media.licdn.com/dms/image/v2/D4E16AQGkHRpqXc8IsQ/profile-displaybackgroundimage-shrink_350_1400/profile-displaybackgroundimage-shrink_350_1400/0/1733853178161?e=1760572800&v=beta&t=5vuskmSKmJmXK38iSLM9MAZwjb9BZgPCqAkZIZ3Ps9o" alt="Image de fond LinkedIn" />
+                        <img className="absolute top-20 left-8 rounded-full h-32 w-32 border-4 border-white" src="https://media.licdn.com/dms/image/v2/D4E03AQG0cRXvsaJcLA/profile-displayphoto-shrink_400_400/B4EZOxsZs0HAAg-/0/1733853028575?e=1760572800&v=beta&t=k6G_CEN1_92OT0d4nvKOOIgv8HdKNw_fL_OPP8WbFyY" alt="Photo de profil LinkedIn" />
+                    </div>
+                    <div className="p-8 pt-20">
+                        <p className="text-3xl font-bold">Jan Nguyen</p>
+                        <p className="text-lg text-gray-500">Développeur Free-lance | React & TypeScript</p>
+                    </div>
+                </div>
+            )
+        },
+        {
+            id: 3,
+            name: "GitHub",
+            icon: "/github-mark.svg",
+            url: "https://github.com/JanNguy",
+            component: (
+                <div className="w-[600px] h-[250px] rounded-2xl shadow-2xl bg-white flex items-center p-8 cursor-pointer" onClick={() => window.open('https://github.com/JanNguy', '_blank')}>
+                    <img className="h-32 w-32 rounded-full" src="https://avatars.githubusercontent.com/u/75522312?v=4" alt="Photo de profil GitHub" />
+                    <div className="ml-6">
+                        <p className="text-5xl font-bold">Jan</p>
+                        <p className="text-2xl text-gray-600">JanNguy</p>
+                    </div>
+                </div>
+            )
+        }
+    ];
+
+    return (
+        <div className="flex w-screen h-screen font-sans bg-gray-50">
+            <div className="w-1/4 h-full flex flex-col justify-between items-center bg-white py-10 shadow-lg">
+                <div>
+                    <h1 className="edwarian text-[120px] text-gray-800 text-center">Contact</h1>
+                    <div className="flex flex-row justify-center gap-6 mt-4">
+                        {socialLinks.map(link => (
+                            <img
+                                key={link.id}
+                                src={link.icon}
+                                alt={link.name}
+                                onMouseOver={() => handleMouseOver(link.id)}
+                                onMouseOut={handleMouseOut}
+                                onClick={() => handleClick(link.id)}
+                                className="w-9 h-9 cursor-pointer transition-transform duration-200 hover:scale-125"
+                            />
+                        ))}
+                    </div>
+                </div>
+                <Link to="/" className="edwarian text-5xl text-gray-400 hover:text-gray-800 transition-colors">
+                    Back
+                </Link>
             </div>
+
+            <main className="flex-1 relative flex items-center justify-center">
+                <p className={`absolute text-2xl text-gray-300 transition-opacity duration-500 ${hoveredId === null && selectedId === null ? 'opacity-100' : 'opacity-0'}`}>
+                    Hover an icon to see details
+                </p>
+                {socialLinks.map(link => (
+                    <div key={link.id} className={`absolute transition-all duration-500 ease-in-out ${isVisible(link.id) ? 'opacity-100 scale-100' : 'opacity-0 scale-90 pointer-events-none'}`}>
+                        {link.component}
+                    </div>
+                ))}
+            </main>
         </div>
-      </div>
-    </>
-  )
+    );
 }
 
 export default ContactPage;

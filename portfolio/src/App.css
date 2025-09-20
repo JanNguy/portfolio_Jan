@@ -43,3 +43,7 @@ button:active {
     font-family: "Edwarian";
     text-align: center;
 }
+
+@utility no-scrollbar {
+  @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+}

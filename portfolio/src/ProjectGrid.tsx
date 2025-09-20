@@ -15,6 +15,7 @@ const leftInset = `20%`;
 const rightInset = `80%`;
 const transparent = `#0000`;
 const opaque = `#000`;
+
 function useScrollOverflowMask(scrollXProgress: MotionValue<number>) {
     const maskImage = useMotionValue(
         `linear-gradient(90deg, ${opaque}, ${opaque} ${left}, ${opaque} ${rightInset}, ${transparent})`
@@ -136,7 +137,7 @@ function ProjectsGrid() {
             <motion.div
                 ref={ref}
                 style={{ maskImage, WebkitMaskImage: maskImage }}
-                className="max-w-115 flex gap-5 justify-center overflow-x-auto pb-4 pl-65 snap-x snap-mandatory"
+                className="max-w-115 flex gap-5 justify-center overflow-x-hidden pb-4 pl-75 snap-x snap-mandatory"
             >
                 <div className="shrink-0 basis-[10vw]" />
                 {list.map((project) => (
