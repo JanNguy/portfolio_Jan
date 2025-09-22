@@ -39,9 +39,6 @@ function ProjectsPage() {
                             </div>
                         </div>
                         <div className="mt-12 border-t border-gray-100 pt-8">
-                            <p className="text-center text-sm text-gray-500">
-                                © {new Date().getFullYear()} Jan Nguyen. Tous droits réservés.
-                            </p>
                         </div>
                     </div>
                 </footer>

@@ -58,7 +58,7 @@ function Home() {
                             Born in Lyon, France, to an engineer father and a nurse mother, I quickly developed an interest in computers.
                         </p>
                         <p className="text-xl md:text-2xl leading-relaxed text-gray-700 font-light">
-                            My journey started on Discord playing Minecraft <a className="text-gray-900 font-medium hover:text-gray-600 transition-colors duration-200 underline decoration-1 underline-offset-4" href="https://youtu.be/ynm_qSv8K1o">[Here]</a> and now I am striving to make a name for myself in computer science.
+                           I started on Discord playing Minecraft <a className="text-gray-900 font-medium hover:text-gray-600 transition-colors duration-200 underline decoration-1 underline-offset-4" href="https://youtu.be/ynm_qSv8K1o">[Here]</a> and now I am striving to make a name for myself in computer science.
                         </p>
                         <p className="text-xl md:text-2xl leading-relaxed text-gray-700 font-light">
                             I am currently enrolled in the Grande École program at EPITECH, pursuing a promising future in the field.
@@ -100,7 +100,7 @@ function Home() {
                     </div>
                     <div className="mt-8 border-t border-gray-100 pt-6">
                         <p className="text-center text-sm text-gray-500">
-                            © {new Date().getFullYear()} Jan Nguyen. Tous droits réservés.
+
                         </p>
                     </div>
                 </div>

@@ -35,7 +35,7 @@ function ContactPage() {
             id: 1,
             name: "X",
             icon: "/X_logo_2023.svg",
-            url: "https://x.com/JanNguy74478827",
+            url: "/ppTwitter$.jpg",
             component: (
                 <div className="w-[600px] h-[250px] rounded-2xl shadow-2xl overflow-hidden bg-white cursor-pointer" onClick={() => window.open('https://x.com/JanNguy74478827', '_blank')}>
                     <div className="flex items-center p-8">
@@ -52,7 +52,7 @@ function ContactPage() {
             id: 2,
             name: "LinkedIn",
             icon: "/linkedin.svg",
-            url: "https://www.linkedin.com/in/jan-nguyen-0aa40b315/",
+            url: "/PPLinekedin.jpg",
             component: (
                 <div className="w-[600px] rounded-2xl shadow-2xl overflow-hidden bg-white cursor-pointer" onClick={() => window.open('https://www.linkedin.com/in/jan-nguyen-0aa40b315/', '_blank')}>
                     <div className="relative">
@@ -87,7 +87,7 @@ function ContactPage() {
         <div className="flex w-screen h-screen font-sans bg-gray-50">
             <div className="w-1/4 h-full flex flex-col justify-between items-center bg-white py-10 shadow-lg">
                 <div>
-                    <h1 className="edwarian text-[120px] text-gray-800 text-center">Contact</h1>
+                    <h1 className="edwarian text-[120px] text-gray-800 text-center transform -translate-x-5">Contact</h1>
                     <div className="flex flex-row justify-center gap-6 mt-4">
                         {socialLinks.map(link => (
                             <img
