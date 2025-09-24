@@ -45,16 +45,16 @@ const projects: ProjectBase[] = [
 
 function ProjectCard({ title, pathImg, description, url }: ProjectBase) {
     return (
-        <div className="flex-none overflow-hidden p-5 h-[60vh] w-[40vh] border rounded-2xl border-stone-600 flex flex-col">
+        <div className="flex-none overflow-hidden p-3 sm:p-5 h-[50vh] sm:h-[60vh] w-[70vw] sm:w-[40vh] border rounded-2xl border-stone-600 flex flex-col">
             <div className="h-[40%] w-full border flex items-center justify-center">
                 <img className="max-h-full max-w-full object-contain" src={pathImg} alt={title} />
             </div>
             <div className="h-[60%] mt-2 flex flex-col justify-between overflow-hidden">
                 <div className="overflow-hidden">
-                    <p className="text-2xl font-bold truncate">{title}</p>
-                    <p className="overflow-hidden text-ellipsis line-clamp-3">{description}</p>
+                    <p className="text-lg sm:text-2xl font-bold truncate">{title}</p>
+                    <p className="text-sm sm:text-base overflow-hidden text-ellipsis line-clamp-3">{description}</p>
                 </div>
-                <a href={url} target="_blank" rel="noreferrer" className="font-bold hover:underline">
+                <a href={url} target="_blank" rel="noreferrer" className="font-bold hover:underline text-sm sm:text-base">
                     Voir
                 </a>
             </div>
@@ -65,8 +65,6 @@ function ProjectCard({ title, pathImg, description, url }: ProjectBase) {
 function ProjectsGrid() {
     const [index, setIndex] = useState(0);
     const count = projects.length;
-    const cardWvh = 40;
-    const gapVh = 2;
 
     function next() {
         setIndex((i) => (i + 1) % count);
@@ -77,27 +75,35 @@ function ProjectsGrid() {
     }
 
     return (
-        <div className="w-full flex items-center justify-center gap-5">
-            <p onClick={prev} className="cursor-pointer select-none my-auto text-2xl font-bold transition duration-150 ease-out hover:-translate-x-1">
+        <div className="w-full flex items-center justify-center gap-2 sm:gap-5 px-4">
+            <p onClick={prev} className="cursor-pointer select-none my-auto text-xl sm:text-2xl font-bold transition duration-150 ease-out hover:-translate-x-1">
                 &lt;
             </p>
 
-            <div className="relative h-[60vh] w-[40vh] overflow-hidden mx-auto">
+            <div className="relative h-[50vh] sm:h-[60vh] w-[70vw] sm:w-[40vh] overflow-hidden mx-auto">
                 <motion.div
-                    className="flex gap-[2vh]"
-                    animate={{ x: `-${index * (cardWvh + gapVh)}vh` }}
+                    className="flex gap-4 sm:gap-[2vh]"
+                    animate={{ 
+                        x: window.innerWidth < 640 
+                            ? `-${index * (70 + 4)}vw` 
+                            : `-${index * (40 + 2)}vh` 
+                    }}
                     transition={{ duration: 0.4, ease: "easeInOut" }}
-                    style={{ width: `${count * cardWvh + (count - 1) * gapVh}vh` }}
+                    style={{ 
+                        width: window.innerWidth < 640 
+                            ? `${count * 70 + (count - 1) * 4}vw`
+                            : `${count * 40 + (count - 1) * 2}vh`
+                    }}
                 >
                     {projects.map((project) => (
-                        <div key={project.id} className="flex-none w-[40vh]">
+                        <div key={project.id} className="flex-none w-[70vw] sm:w-[40vh]">
                             <ProjectCard {...project} />
                         </div>
                     ))}
                 </motion.div>
             </div>
 
-            <p onClick={next} className="cursor-pointer select-none my-auto text-2xl font-bold transition duration-150 ease-out hover:translate-x-1">
+            <p onClick={next} className="cursor-pointer select-none my-auto text-xl sm:text-2xl font-bold transition duration-150 ease-out hover:translate-x-1">
                 &gt;
             </p>
         </div>
