@@ -105,7 +105,7 @@ function ContactPage() {
                         ))}
                     </div>
                 </div>
-                <Link to="/" className="edwarian text-3xl md:text-5xl text-gray-400 hover:text-gray-800 transition-colors">
+                <Link to="/" className="edwarian text-3xl md:text-5xl text-gray-400 hover:text-gray-800 transition-colors mt-5">
                     Back
                 </Link>
             </div>
