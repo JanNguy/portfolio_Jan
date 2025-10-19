@@ -79,7 +79,7 @@ function ProjectsPage() {
                         </Link>
                     </div>
 
-                    <div className="flex items-center justify-center pb-24">
+                    <div className="flex items-center justify-center pb-24 -mx-4 sm:mx-0 w-screen sm:w-auto overflow-hidden">
                         <ProjectsGrid />
                     </div>
                 </div>
