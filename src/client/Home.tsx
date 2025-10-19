@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import Waves from "../components/WavesHome"
+import "src/css/App.css"
 
 function Home() {
     return (
