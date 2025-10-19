@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
-import Waves from "../components/Waves"
+import Waves from "../components/WavesHome"
 
 function Home() {
     return (
