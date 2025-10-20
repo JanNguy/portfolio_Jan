@@ -19,7 +19,7 @@ const projects: ProjectBase[] = [
         pathImg: "/alpaga.png",
         description:
             "Alpaga is a local UX for Ollama. The goal is to provide a clean interface, conversation history and real‑time listing of your locally available Ollama models.",
-        url: `${baseUrl}/alpaga`,
+        url: `https://github.com/JanNguy/alpaga`,
     },
     {
         id: 2,
