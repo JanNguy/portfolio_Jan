@@ -57,7 +57,7 @@ const projects: ProjectBase[] = [
 
 function ProjectCard({ title, pathImg, description, url }: ProjectBase) {
     return (
-        <div className="flex-none overflow-hidden p-3 sm:p-5 h-[50vh] sm:h-[60vh] w-[70vw] sm:w-[40vh] border rounded-2xl border-stone-600 flex flex-col">
+        <div className="flex-none overflow-hidden p-3 sm:p-5 h-[50vh] sm:h-[60vh] w-[70vw] sm:w-[40vw] border rounded-2xl border-stone-600 flex flex-col">
             <div className="h-[40%] w-full border flex items-center justify-center">
                 <img
                     className="max-h-full max-w-full object-contain"
@@ -121,27 +121,27 @@ function ProjectsGrid() {
                 </svg>
             </p>
 
-            <div className="relative h-[50vh] sm:h-[60vh] w-[70vw] sm:w-[40vh] overflow-hidden mx-auto">
+            <div className="relative h-[50vh] sm:h-[60vh] w-[70vw] sm:w-[40vw] overflow-hidden mx-auto">
                 <motion.div
-                    className="flex gap-4 sm:gap-[2vh]"
+                    className="flex gap-[4vw] sm:gap-[2vw]"
                     animate={{
                         x:
                             window.innerWidth < 640
                                 ? `-${index * (70 + 4)}vw`
-                                : `-${index * (40 + 2)}vh`,
+                                : `-${index * (40 + 2)}vw`,
                     }}
                     transition={{ duration: 0.4, ease: "easeInOut" }}
                     style={{
                         width:
                             window.innerWidth < 640
                                 ? `${count * 70 + (count - 1) * 4}vw`
-                                : `${count * 40 + (count - 1) * 2}vh`,
+                                : `${count * 40 + (count - 1) * 2}vw`,
                     }}
                 >
                     {projects.map((project) => (
                         <div
                             key={project.id}
-                            className="flex-none w-[70vw] sm:w-[40vh]"
+                            className="flex-none w-[70vw] sm:w-[40vw]"
                         >
                             <ProjectCard {...project} />
                         </div>
