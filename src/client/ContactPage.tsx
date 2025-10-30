@@ -131,10 +131,10 @@ function ContactPage() {
         <div className="flex flex-col md:flex-row w-screen h-screen font-sans bg-gray-50">
             <div className="w-full md:w-1/4 h-auto md:h-full flex flex-col justify-between items-center bg-white py-6 md:py-10 shadow-lg">
                 <div>
-                    <h1 className="edwarian text-[60px] md:text-[120px] text-gray-800 text-center transform -translate-x-2 md:-translate-x-5">
+                    <h1 className="edwarian text-[80px] xl:text-[95px] lg:text-[80px] md:text-[75px] sm:text-[60px] text-gray-800 text-center transform -translate-x-2 md:-translate-x-5 mx-[5%]">
                         Contact
                     </h1>
-                    <div className="flex flex-row justify-center gap-6 mt-4">
+                    <div className="flex flex-row justify-center gap-6 mt-4 mx-auto">
                         {socialLinks.map((link) => (
                             <img
                                 key={link.id}
