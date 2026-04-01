@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import Lenis from "lenis";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -126,63 +126,8 @@ function SiteNav() {
   );
 }
 
-function Loader({ visible }: { visible: boolean }) {
-  return (
-    <AnimatePresence>
-      {visible ? (
-        <motion.div
-          key="loader"
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-[#0a0a0a]"
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } }}
-        >
-          <div className="flex w-full max-w-3xl flex-col items-center px-8">
-            <motion.p
-              className="text-3xl font-semibold text-zinc-100 sm:text-5xl"
-              initial={{ opacity: 0, y: 8, filter: "blur(8px)", letterSpacing: "0.12em" }}
-              animate={{
-                opacity: [0.72, 1, 1],
-                y: [8, 0, 0],
-                filter: ["blur(8px)", "blur(0px)", "blur(0px)"],
-                letterSpacing: ["0.12em", "0.22em", "0.14em", "0.2em", "0.14em"],
-              }}
-              transition={{ duration: 2.1, times: [0, 0.2, 0.4, 0.7, 1], ease: "easeInOut" }}
-            >
-              Jan Nguyen
-            </motion.p>
-
-            <motion.div
-              className="mt-10 h-px w-full overflow-hidden bg-zinc-800/80"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.45, delay: 0.2 }}
-            >
-              <motion.span
-                className="block h-full bg-zinc-300/90"
-                initial={{ x: "-100%" }}
-                animate={{ x: "0%" }}
-                transition={{ duration: 1.7, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              />
-            </motion.div>
-
-            <motion.p
-              className="mt-4 text-[10px] uppercase tracking-[0.2em] text-zinc-500"
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 0.55 }}
-            >
-              Portfolio loading
-            </motion.p>
-          </div>
-        </motion.div>
-      ) : null}
-    </AnimatePresence>
-  );
-}
-
 export default function SiteShell({ children }: SiteShellProps) {
   const pathname = usePathname();
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -209,26 +154,18 @@ export default function SiteShell({ children }: SiteShellProps) {
     };
   }, []);
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => setLoading(false), 2200);
-    return () => window.clearTimeout(timer);
-  }, []);
-
   return (
-    <>
-      <Loader visible={loading} />
-      <div className="mx-auto w-full max-w-[86rem] px-6 pb-16 pt-28 sm:px-10 md:px-14 md:pt-32 lg:px-20">
-        <SiteNav />
-        <motion.main
-          key={pathname}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {children}
-        </motion.main>
-        <SiteFooter />
-      </div>
-    </>
+    <div className="mx-auto w-full max-w-[86rem] px-6 pb-16 pt-28 sm:px-10 md:px-14 md:pt-32 lg:px-20">
+      <SiteNav />
+      <motion.main
+        key={pathname}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {children}
+      </motion.main>
+      <SiteFooter />
+    </div>
   );
 }
