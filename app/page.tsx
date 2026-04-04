@@ -1,43 +1,42 @@
 "use client";
 
-import { motion } from "framer-motion";
-import ProjectShowcase from "@/components/project-showcase";
-import { projects } from "@/data/projects";
+import { useCallback, useState } from "react";
+import TreeAnimation from "@/components/TreeAnimation";
+import Link from "next/link";
 
 export default function HomePage() {
-  return (
-    <>
-      <motion.header
-        className="mb-20 pt-8 sm:pt-12 md:mb-24"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <h1
-          className="hero-name text-6xl font-semibold tracking-[-0.055em] text-[#f5f5f5] sm:text-8xl md:text-9xl lg:text-[11rem]"
-          data-text="Jan Nguyen"
-        >
-          <span className="hero-name__offset" aria-hidden>
-            Jan Nguyen
-          </span>
-          <span className="hero-name__main">Jan Nguyen</span>
-        </h1>
-        <p className="mt-5 text-[11px] uppercase tracking-[0.24em] text-[#888] sm:text-xs">
-          Developer
-        </p>
-        <span className="mt-7 block text-xs uppercase tracking-[0.16em] text-zinc-400">
-          Available for selected collaborations
-        </span>
-      </motion.header>
+    const [stage, setStage] = useState(0);
+    const handleStageChange = useCallback((nextStage: number) => {
+        setStage(nextStage);
+    }, []);
 
-      <motion.section
-        id="projects"
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.08, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <ProjectShowcase projects={projects} />
-      </motion.section>
-    </>
+  return (
+        <div className="page">
+                        <TreeAnimation onStageChange={handleStageChange} />
+            <main className="content page-root">
+        <nav className="nav-shell top-nav">
+            <div className="nav-inner">
+                <ul className="nav-list">
+                    <li>
+                        <Link href="/" className="nav-link">Home</Link>
+                    </li>
+                    <li>
+                        <Link href="/projects/alpaga" className="nav-link">Projects</Link>
+                    </li>
+                </ul>
+                <a href="mailto:jan.nguyen694@icloud.com" className="nav-link">Get in touch</a>
+            </div>
+        </nav>
+        <section className="hero">
+            <div className="hero-inner">
+                <p className="hero-title">
+                    <span className={`hero-word ${stage === 1 ? "hero-word--active" : ""}`}>Build</span><br/>
+                    <span className={`hero-word ${stage === 2 ? "hero-word--active" : ""}`}>Optimise</span><br/>
+                    <span className={`hero-word ${stage === 3 ? "hero-word--active" : ""}`}>Restart</span>
+                </p>
+            </div>
+        </section>
+            </main>
+        </div>
   );
 }

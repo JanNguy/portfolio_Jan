@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import SiteShell from "@/components/site-shell";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -12,8 +11,8 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Jan Nguyen | Developer",
-  description: "Minimal and precise developer portfolio.",
+  title: "Portfolio",
+  description: "Base vierge du portfolio.",
 };
 
 export default function RootLayout({
@@ -24,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${manrope.variable} antialiased`}>
-        <SiteShell>{children}</SiteShell>
+        {children}
         <Analytics />
         <SpeedInsights />
       </body>
