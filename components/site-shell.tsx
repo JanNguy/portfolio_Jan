@@ -51,26 +51,25 @@ function SiteFooter() {
   }, [now]);
 
   return (
-    <footer className="mt-24 border-t border-zinc-700/60 pt-6 text-[11px] uppercase tracking-[0.14em] text-zinc-400 sm:mt-28">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div className="space-y-1">
-          <p>Position: Lyon</p>
-          <p>45.7640, 4.8357</p>
-          <p>Timezone: Europe/Paris (CET/CEST)</p>
+    <footer className="mt-20 border-t border-zinc-800/60 pt-8 sm:mt-24">
+      <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+        <div className="space-y-2 text-sm text-zinc-500">
+          <p className="font-medium text-zinc-300">Lyon, France</p>
+          <p className="text-xs text-zinc-600">45.7640° N, 4.8357° E</p>
+          <p className="text-xs text-zinc-600">Europe/Paris (CET/CEST)</p>
         </div>
 
-        <div className="space-y-1 text-left sm:text-right">
+        <div className="space-y-2 text-left text-sm sm:text-right">
           <p className="flex items-center gap-2 sm:justify-end">
-            Status:
             <span
-              className={`inline-block h-1.5 w-1.5 rounded-full ${isOnline ? "bg-emerald-400" : "bg-red-400"}`}
+              className={`inline-block h-2 w-2 rounded-full ${isOnline ? "bg-emerald-500 shadow-emerald-500/50" : "bg-red-500/80 shadow-red-500/50"} shadow-[0_0_8px]`}
               aria-hidden
             />
-            <span className={isOnline ? "text-emerald-300" : "text-red-300"}>
-              {isOnline ? "Online" : "Offline"}
+            <span className={`font-medium ${isOnline ? "text-emerald-400" : "text-zinc-400"}`}>
+              {isOnline ? "Available" : "Offline"}
             </span>
           </p>
-          <p>{parisTime}</p>
+          <p className="font-mono text-lg text-zinc-300">{parisTime}</p>
         </div>
       </div>
     </footer>
@@ -91,15 +90,17 @@ function SiteNav() {
   return (
     <header className="fixed inset-x-0 top-0 z-40">
       <div
-        className={`mx-auto mt-4 flex w-[min(100%-2rem,78rem)] items-center justify-between rounded-xl px-4 py-3 text-[11px] uppercase tracking-[0.14em] transition duration-500 sm:px-5 ${
+        className={`mx-auto mt-4 flex w-[min(100%-2rem,78rem)] items-center justify-between rounded-lg px-4 py-3 text-sm font-medium transition-all duration-300 sm:px-5 ${
           scrolled
-            ? "border border-zinc-600/60 bg-[#121212]/85 text-zinc-100 backdrop-blur-xl"
+            ? "border border-zinc-700/50 bg-zinc-900/80 text-zinc-100 shadow-lg shadow-black/20 backdrop-blur-xl"
             : "border border-transparent bg-transparent text-zinc-400"
         }`}
       >
-        <nav className="flex items-center gap-4 sm:gap-6">
+        <nav className="flex items-center gap-1">
           <Link
-            className="transition hover:text-zinc-100"
+            className={`rounded-md px-4 py-2 transition-all duration-200 hover:bg-zinc-800/60 hover:text-zinc-100 ${
+              pathname === "/" ? "bg-zinc-800/80 text-white" : ""
+            }`}
             href="/"
             onClick={(event) => {
               if (pathname === "/") {
@@ -110,15 +111,28 @@ function SiteNav() {
           >
             Home
           </Link>
-          <Link className="transition hover:text-zinc-100" href="/#projects">
+          <Link
+            className={`rounded-md px-4 py-2 transition-all duration-200 hover:bg-zinc-800/60 hover:text-zinc-100 ${
+              pathname.startsWith("/projects") ? "bg-zinc-800/80 text-white" : ""
+            }`}
+            href="/#projects"
+          >
             Projects
           </Link>
-          <Link className="transition hover:text-zinc-100" href="/contact">
+          <Link
+            className={`rounded-md px-4 py-2 transition-all duration-200 hover:bg-zinc-800/60 hover:text-zinc-100 ${
+              pathname === "/contact" ? "bg-zinc-800/80 text-white" : ""
+            }`}
+            href="/contact"
+          >
             Contact
           </Link>
         </nav>
 
-        <a className="text-zinc-200 transition hover:text-white" href="mailto:jan.nguyen694@icloud.com">
+        <a
+          className="rounded-md bg-white px-4 py-2 text-zinc-900 shadow-sm transition-all duration-200 hover:bg-zinc-100"
+          href="mailto:jan.nguyen694@icloud.com"
+        >
           Get in touch
         </a>
       </div>
@@ -131,12 +145,12 @@ export default function SiteShell({ children }: SiteShellProps) {
 
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.05,
-      wheelMultiplier: 0.85,
-      touchMultiplier: 0.8,
+      duration: 1.2,
+      wheelMultiplier: 0.9,
+      touchMultiplier: 0.85,
       smoothWheel: true,
       syncTouch: false,
-      easing: (t: number) => 1 - Math.pow(1 - t, 3),
+      easing: (t: number) => 1 - Math.pow(1 - t, 3.5),
     });
 
     let rafId = 0;
@@ -155,13 +169,13 @@ export default function SiteShell({ children }: SiteShellProps) {
   }, []);
 
   return (
-    <div className="mx-auto w-full max-w-[86rem] px-6 pb-16 pt-28 sm:px-10 md:px-14 md:pt-32 lg:px-20">
+    <div className="mx-auto w-full max-w-[82rem] px-6 pb-20 pt-32 sm:px-8 md:px-12 lg:px-16">
       <SiteNav />
       <motion.main
         key={pathname}
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
         {children}
       </motion.main>

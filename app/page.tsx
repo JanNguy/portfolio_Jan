@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import TreeAnimation from "@/components/TreeAnimation";
+import RightVisual from "@/components/RightVisual";
 import Link from "next/link";
 
 export default function HomePage() {
@@ -12,13 +12,13 @@ export default function HomePage() {
 
   return (
         <div className="page">
-                        <TreeAnimation onStageChange={handleStageChange} />
+            <RightVisual onStageChange={handleStageChange} />
             <main className="content page-root">
-        <nav className="nav-shell top-nav">
+        <nav className="nav-shell top-nav" aria-label="Main navigation">
             <div className="nav-inner">
                 <ul className="nav-list">
                     <li>
-                        <Link href="/" className="nav-link">Home</Link>
+                        <Link href="/" className="nav-link" aria-current="page">Home</Link>
                     </li>
                     <li>
                         <Link href="/projects/alpaga" className="nav-link">Projects</Link>

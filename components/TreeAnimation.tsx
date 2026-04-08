@@ -14,23 +14,23 @@ function getScrollProgress(): number {
   return max <= 0 ? 0 : clamp(window.scrollY / max);
 }
 
-/* ── Ring configuration ───────────────────────────────────────────────────── */
+/* ── Configuration ───────────────────────────────────────────────────────── */
 
+// Minimal black & white rings
 const RINGS = [
-  { r: 60,  opacity: 0.12, width: 1.2, color: "#6C8EEF" },
-  { r: 110, opacity: 0.10, width: 1.0, color: "#A78BFA" },
-  { r: 165, opacity: 0.09, width: 0.8, color: "#6CB4EF" },
-  { r: 225, opacity: 0.07, width: 0.7, color: "#8B8BFA" },
-  { r: 290, opacity: 0.06, width: 0.6, color: "#6CAEDC" },
-  { r: 360, opacity: 0.05, width: 0.5, color: "#A78BFA" },
-  { r: 440, opacity: 0.04, width: 0.5, color: "#6C8EEF" },
+  { r: 80, baseOpacity: 0.06, width: 1 },
+  { r: 140, baseOpacity: 0.05, width: 1 },
+  { r: 200, baseOpacity: 0.04, width: 1 },
+  { r: 270, baseOpacity: 0.03, width: 0.8 },
+  { r: 350, baseOpacity: 0.025, width: 0.6 },
+  { r: 440, baseOpacity: 0.02, width: 0.5 },
 ] as const;
 
 /* ── Component ────────────────────────────────────────────────────────────── */
 
 type Props = { onStageChange?: (stage: number) => void };
 
-export default function TreeAnimation({ onStageChange }: Props) {
+export default function AmbientVisual({ onStageChange }: Props) {
   const [progress, setProgress] = useState(0);
   const target = useRef(0);
   const current = useRef(0);
@@ -39,7 +39,8 @@ export default function TreeAnimation({ onStageChange }: Props) {
 
   useEffect(() => {
     const tick = () => {
-      const next = lerp(current.current, target.current, 0.09);
+      // Faster lerp for immediate response
+      const next = lerp(current.current, target.current, 0.15);
       current.current = next;
       setProgress(next);
 
@@ -59,7 +60,7 @@ export default function TreeAnimation({ onStageChange }: Props) {
       if (!raf.current) raf.current = requestAnimationFrame(tick);
     };
 
-    /* Initial sync */
+    /* Initial sync - immediate */
     target.current = getScrollProgress();
     current.current = target.current;
     setProgress(target.current);
@@ -80,29 +81,48 @@ export default function TreeAnimation({ onStageChange }: Props) {
 
   /* ── Derived animation values ──────────────────────────────────────────── */
 
-  const visibility =
-    smoothstep(mapRange(progress, 0.02, 0.12)) *
-    (1 - smoothstep(mapRange(progress, 0.88, 1.0)));
-
-  const breathe = progress * 0.08;
+  // Visibility starts immediately
+  const visibility = smoothstep(mapRange(progress, 0, 0.08));
+  const breathe = progress * 0.1;
 
   /* ── Render ─────────────────────────────────────────────────────────────── */
 
   return (
     <div className="ambient" aria-hidden>
       <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet" role="presentation">
+        <defs>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        {/* Concentric circles - black & white */}
         {RINGS.map((ring, i) => (
           <circle
             key={i}
             cx={300}
             cy={300}
-            r={ring.r * (1 + breathe * (1 + i * 0.08))}
+            r={ring.r * (1 + breathe * (0.5 + i * 0.1))}
             fill="none"
-            stroke={ring.color}
+            stroke="#000000"
             strokeWidth={ring.width}
-            strokeOpacity={ring.opacity * visibility}
+            strokeOpacity={ring.baseOpacity * (1 + visibility * 0.5)}
+            filter="url(#glow)"
           />
         ))}
+
+        {/* Subtle central dot */}
+        <circle
+          cx={300}
+          cy={300}
+          r={4 + breathe * 2}
+          fill="#000000"
+          opacity={0.08 * visibility}
+        />
       </svg>
 
       <style jsx>{`
