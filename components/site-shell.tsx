@@ -90,15 +90,15 @@ function SiteNav() {
   return (
     <header className="fixed inset-x-0 top-0 z-40">
       <div
-        className={`mx-auto mt-4 flex w-[min(100%-2rem,78rem)] items-center justify-between rounded-lg px-4 py-3 text-sm font-medium transition-all duration-300 sm:px-5 ${
+        className={`mx-auto mt-4 flex w-[min(100%-1rem,78rem)] items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-300 sm:mt-4 sm:w-[min(100%-2rem,78rem)] sm:px-5 sm:py-3 ${
           scrolled
             ? "border border-zinc-700/50 bg-zinc-900/80 text-zinc-100 shadow-lg shadow-black/20 backdrop-blur-xl"
             : "border border-transparent bg-transparent text-zinc-400"
         }`}
       >
-        <nav className="flex items-center gap-1">
+        <nav className="flex items-center gap-0.5 sm:gap-1">
           <Link
-            className={`rounded-md px-4 py-2 transition-all duration-200 hover:bg-zinc-800/60 hover:text-zinc-100 ${
+            className={`rounded-md px-2.5 py-1.5 text-xs transition-all duration-200 hover:bg-zinc-800/60 hover:text-zinc-100 sm:px-4 sm:py-2 sm:text-sm ${
               pathname === "/" ? "bg-zinc-800/80 text-white" : ""
             }`}
             href="/"
@@ -112,7 +112,7 @@ function SiteNav() {
             Home
           </Link>
           <Link
-            className={`rounded-md px-4 py-2 transition-all duration-200 hover:bg-zinc-800/60 hover:text-zinc-100 ${
+            className={`rounded-md px-2.5 py-1.5 text-xs transition-all duration-200 hover:bg-zinc-800/60 hover:text-zinc-100 sm:px-4 sm:py-2 sm:text-sm ${
               pathname.startsWith("/projects") ? "bg-zinc-800/80 text-white" : ""
             }`}
             href="/#projects"
@@ -120,7 +120,7 @@ function SiteNav() {
             Projects
           </Link>
           <Link
-            className={`rounded-md px-4 py-2 transition-all duration-200 hover:bg-zinc-800/60 hover:text-zinc-100 ${
+            className={`rounded-md px-2.5 py-1.5 text-xs transition-all duration-200 hover:bg-zinc-800/60 hover:text-zinc-100 sm:px-4 sm:py-2 sm:text-sm ${
               pathname === "/contact" ? "bg-zinc-800/80 text-white" : ""
             }`}
             href="/contact"
@@ -130,7 +130,7 @@ function SiteNav() {
         </nav>
 
         <a
-          className="rounded-md bg-white px-4 py-2 text-zinc-900 shadow-sm transition-all duration-200 hover:bg-zinc-100"
+          className="whitespace-nowrap rounded-md bg-white px-2.5 py-1.5 text-xs text-zinc-900 shadow-sm transition-all duration-200 hover:bg-zinc-100 sm:px-4 sm:py-2 sm:text-sm"
           href="mailto:jan.nguyen694@icloud.com"
         >
           Get in touch
@@ -169,7 +169,7 @@ export default function SiteShell({ children }: SiteShellProps) {
   }, []);
 
   return (
-    <div className="mx-auto w-full max-w-[82rem] px-6 pb-20 pt-32 sm:px-8 md:px-12 lg:px-16">
+    <div className="mx-auto w-full max-w-[82rem] px-4 pb-16 pt-24 sm:px-8 sm:pb-20 sm:pt-32 md:px-12 lg:px-16">
       <SiteNav />
       <motion.main
         key={pathname}

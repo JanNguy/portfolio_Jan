@@ -1,42 +1,37 @@
 "use client";
 
-import { useCallback, useState } from "react";
-import RightVisual from "@/components/RightVisual";
-import Link from "next/link";
+import { useState } from "react";
+import HeroHeader from "../components/HeroHeader";
+import PortraitSpeech from "../components/PortraitSpeech";
+import LanguageSwitcher from "../components/LanguageSwitcher";
+import MainFooter from "../components/MainFooter";
+import MobileGate from "../components/MobileGate";
+
+const PROJECTS = [
+    { name: "Alpaga", description: "Application basé de chatbot local sur Ollama", link: "https://github.com/JanNguy/alpaga" },
+    { name: "ProductSnap", description: "Application SaaS de génération d'image ciblé e-commerçants" },
+    { name: "sha-256", description: "Implémentation de l'algorithme sha-256 en C", link: "https://github.com/JanNguy/sha-256" },
+    { name: "FastStart", description: "Initieur de project Bash pour tout types de projets", link: "https://github.com/JanNguy/FastStart" },
+    { name: "Other", description: "", link: "https://github.com/JanNguy" },
+];
 
 export default function HomePage() {
-    const [stage, setStage] = useState(0);
-    const handleStageChange = useCallback((nextStage: number) => {
-        setStage(nextStage);
-    }, []);
+    const [showProjects, setShowProjects] = useState(false);
 
-  return (
-        <div className="page">
-            <RightVisual onStageChange={handleStageChange} />
-            <main className="content page-root">
-        <nav className="nav-shell top-nav" aria-label="Main navigation">
-            <div className="nav-inner">
-                <ul className="nav-list">
-                    <li>
-                        <Link href="/" className="nav-link" aria-current="page">Home</Link>
-                    </li>
-                    <li>
-                        <Link href="/projects/alpaga" className="nav-link">Projects</Link>
-                    </li>
-                </ul>
-                <a href="mailto:jan.nguyen694@icloud.com" className="nav-link">Get in touch</a>
+    return (
+        <MobileGate>
+            <div className="page">
+                <LanguageSwitcher />
+                <HeroHeader
+                    showProjects={showProjects}
+                    projects={PROJECTS}
+                    onProjectsClick={() => setShowProjects((v) => !v)}
+                />
+                <main className="content page-root">
+                    <PortraitSpeech />
+                </main>
+                <MainFooter />
             </div>
-        </nav>
-        <section className="hero">
-            <div className="hero-inner">
-                <p className="hero-title">
-                    <span className={`hero-word ${stage === 1 ? "hero-word--active" : ""}`}>Build</span><br/>
-                    <span className={`hero-word ${stage === 2 ? "hero-word--active" : ""}`}>Optimise</span><br/>
-                    <span className={`hero-word ${stage === 3 ? "hero-word--active" : ""}`}>Restart</span>
-                </p>
-            </div>
-        </section>
-            </main>
-        </div>
-  );
+        </MobileGate>
+    );
 }

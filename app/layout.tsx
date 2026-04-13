@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import LenisProvider from "@/components/LenisProvider";
+import { I18nProvider } from "@/components/i18n";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -23,7 +25,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${manrope.variable} antialiased`}>
-        {children}
+        <I18nProvider>
+          <LenisProvider>{children}</LenisProvider>
+        </I18nProvider>
         <Analytics />
         <SpeedInsights />
       </body>

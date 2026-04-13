@@ -68,7 +68,7 @@ export default function ProjectShowcase({ projects }: ProjectShowcaseProps) {
           <a
             href={project.githubUrl}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="mt-4 inline-block text-[11px] tracking-[0.12em] text-zinc-400 transition duration-300 hover:text-zinc-200"
           >
             GitHub

@@ -1,11 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState, useLayoutEffect, useMemo } from "react";
+import { useEffect, useRef, useState, useLayoutEffect } from "react";
 
 /* ── Math Utilities ─────────────────────────────────────────────────────── */
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
+
+// Easing functions for smoother animations
+const easeOutExpo = (t: number) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
+const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
 function getScrollProgress(): number {
   if (typeof window === "undefined") return 0;
@@ -45,7 +49,6 @@ type Props = { onStageChange?: (stage: number) => void };
 
 export default function RightVisual({ onStageChange }: Props) {
   const [mounted, setMounted] = useState(false);
-  const [tick, setTick] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
 
   const progressRef = useRef(0);
@@ -63,22 +66,32 @@ export default function RightVisual({ onStageChange }: Props) {
     setMounted(true);
 
     let lastStage = -1;
+    let lastTimestamp = 0;
 
-    const animate = () => {
-      timeRef.current += 0.016; // ~60fps time increment
+    const animate = (timestamp: number) => {
+      // Delta time for smooth frame-rate independent animation
+      const deltaTime = lastTimestamp ? (timestamp - lastTimestamp) / 1000 : 0.016;
+      lastTimestamp = timestamp;
 
-      // Smooth scroll interpolation
-      progressRef.current = lerp(progressRef.current, targetRef.current, 0.06);
+      // Cap delta to prevent jumps when tab is inactive
+      const cappedDelta = Math.min(deltaTime, 0.1);
+      timeRef.current += cappedDelta;
+
+      // Smooth scroll interpolation with adaptive lerp
+      // Faster lerp for bigger differences, slower for precision
+      const diff = Math.abs(targetRef.current - progressRef.current);
+      const lerpFactor = diff > 0.1 ? 0.12 : diff > 0.01 ? 0.08 : 0.04;
+      progressRef.current = lerp(progressRef.current, targetRef.current, lerpFactor);
+
       const p = progressRef.current;
 
-      // Stage detection
+      // Stage detection with hysteresis for smoother transitions
       const stage = p < 0.15 ? 0 : p < 0.45 ? 1 : p < 0.72 ? 2 : 3;
       if (stage !== lastStage) {
         lastStage = stage;
         onStageChangeRef.current?.(stage);
       }
 
-      setTick(t => t + 1);
       setScrollProgress(p);
 
       rafRef.current = requestAnimationFrame(animate);
@@ -111,23 +124,22 @@ export default function RightVisual({ onStageChange }: Props) {
   // Stage 2 (45-72%): Active - full orbital system, connections visible
   // Stage 3 (72-100%): Transcending - expansion, dissolution
 
-  const stage0 = 1 - clamp(p / 0.15, 0, 1);
   const stage1 = clamp((p - 0.15) / 0.30, 0, 1);
   const stage2 = clamp((p - 0.45) / 0.27, 0, 1);
   const stage3 = clamp((p - 0.72) / 0.28, 0, 1);
 
-  // Core properties
-  const coreRadius = lerp(0, 35, stage1) + lerp(0, 15, stage2);
-  const coreOpacity = lerp(0, 0.9, stage1) * (1 - stage3 * 0.3);
+  // Core properties with eased transitions
+  const coreRadius = lerp(0, 35, easeOutExpo(stage1)) + lerp(0, 15, easeOutExpo(stage2));
+  const coreOpacity = lerp(0, 0.9, easeOutExpo(stage1)) * (1 - stage3 * 0.3);
   const corePulse = 1 + Math.sin(time * 2) * 0.08;
 
   // Glow properties
   const glowRadius = coreRadius * 3;
   const glowOpacity = stage1 * 0.25 * (1 - stage3 * 0.5);
 
-  // Orbital properties
-  const orbitalScale = lerp(0.3, 1, stage1);
-  const orbitalOpacity = stage1 * (1 - stage3 * 0.4);
+  // Orbital properties with eased transitions
+  const orbitalScale = lerp(0.3, 1, easeInOutCubic(stage1));
+  const orbitalOpacity = easeInOutCubic(stage1) * (1 - stage3 * 0.4);
   const connectionOpacity = stage2 * 0.15;
 
   // Generate orbital positions
@@ -366,17 +378,62 @@ export default function RightVisual({ onStageChange }: Props) {
           justify-content: center;
           pointer-events: none;
           z-index: 0;
+          will-change: contents;
+          -webkit-font-smoothing: antialiased;
         }
 
         .right-visual svg {
           width: 100%;
           max-width: 700px;
           height: auto;
+          transition: transform 0.3s ease-out;
         }
 
+        /* Tablet: Show visual at top-center with subtle opacity */
         @media (max-width: 900px) {
           .right-visual {
-            display: none;
+            position: fixed;
+            top: 18%;
+            left: 50%;
+            right: auto;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            max-width: 100vw;
+            height: auto;
+            opacity: 0.18;
+            pointer-events: none;
+            overflow: hidden;
+          }
+
+          .right-visual svg {
+            max-width: 320px;
+            max-height: 320px;
+          }
+        }
+
+        /* Mobile: Smaller, more subtle, positioned higher */
+        @media (max-width: 600px) {
+          .right-visual {
+            top: 14%;
+            opacity: 0.12;
+          }
+
+          .right-visual svg {
+            max-width: 200px;
+            max-height: 200px;
+          }
+        }
+
+        /* Small mobile: Even more compact */
+        @media (max-width: 400px) {
+          .right-visual {
+            top: 12%;
+            opacity: 0.1;
+          }
+
+          .right-visual svg {
+            max-width: 160px;
+            max-height: 160px;
           }
         }
       `}</style>
