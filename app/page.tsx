@@ -5,7 +5,6 @@ import HeroHeader from "../components/HeroHeader";
 import PortraitSpeech from "../components/PortraitSpeech";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import MainFooter from "../components/MainFooter";
-import MobileGate from "../components/MobileGate";
 
 const PROJECTS = [
     { name: "Alpaga", description: "Application basé de chatbot local sur Ollama", link: "https://github.com/JanNguy/alpaga" },
@@ -19,19 +18,17 @@ export default function HomePage() {
     const [showProjects, setShowProjects] = useState(false);
 
     return (
-        <MobileGate>
-            <div className="page">
-                <LanguageSwitcher />
-                <HeroHeader
-                    showProjects={showProjects}
-                    projects={PROJECTS}
-                    onProjectsClick={() => setShowProjects((v) => !v)}
-                />
-                <main className="content page-root">
-                    <PortraitSpeech />
-                </main>
-                <MainFooter />
-            </div>
-        </MobileGate>
+        <div className="page">
+            <LanguageSwitcher />
+            <HeroHeader
+                showProjects={showProjects}
+                projects={PROJECTS}
+                onProjectsClick={() => setShowProjects((v) => !v)}
+            />
+            <main className="content page-root">
+                <PortraitSpeech />
+            </main>
+            <MainFooter />
+        </div>
     );
 }

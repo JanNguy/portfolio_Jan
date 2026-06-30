@@ -420,7 +420,12 @@ body::before {
     margin-top: 1rem;
 }
 
-/* ── LanguageSwitcher ────────────────────────────────────────────────────── */
+    /* ── LanguageSwitcher ────────────────────────────────────────────────────── */
+
+.hero-header ul {
+    display: flex;
+    align-items: center;
+}
 
 .lang-switcher {
     position: fixed;
@@ -470,32 +475,15 @@ body::before {
         line-height: 1.5;
     }
 
-    /* ── Portrait: un-fix, center in flow ── */
+    .hero-header ul {
+        flex-wrap: wrap;
+        gap: 0.375rem;
+        margin-top: 1.5rem;
+    }
+
+    /* ── Hide portrait on mobile ── */
     .portrait-speech {
-        position: relative;
-        top: auto;
-        left: auto;
-        transform: none;
-        width: 100%;
-        max-width: 100%;
-        min-width: 0;
-        margin: 2rem auto;
-        padding: 0 1.5rem;
-    }
-
-    .portrait-speech-img {
-        width: 70%;
-        max-width: 380px;
-        margin: 0 auto;
-        display: block;
-        box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.15);
-    }
-
-    .portrait-speech-text {
-        font-size: 0.9rem;
-        text-align: left;
-        max-width: 480px;
-        margin: 1rem auto 0;
+        display: none;
     }
 
     /* ── Language switcher ── */
@@ -541,19 +529,10 @@ body::before {
         line-height: 1.45;
     }
 
-    /* ── Portrait ── */
-    .portrait-speech {
-        padding: 0 1rem;
-        margin: 1.5rem auto;
-    }
-
-    .portrait-speech-img {
-        width: 80%;
-        max-width: 320px;
-    }
-
-    .portrait-speech-text {
-        font-size: 0.85rem;
+    /* ── Nav list wrap ── */
+    .hero-header ul {
+        gap: 0.25rem;
+        margin-top: 1rem;
     }
 
     /* ── Page root ── */
@@ -640,18 +619,8 @@ body::before {
         font-size: 0.8rem;
     }
 
-    .portrait-speech {
-        padding: 0 0.75rem;
-        margin: 1rem auto;
-    }
-
-    .portrait-speech-img {
-        width: 85%;
-        max-width: 280px;
-    }
-
-    .portrait-speech-text {
-        font-size: 0.78rem;
+    .hero-header ul {
+        gap: 0.125rem;
     }
 
     .page-root {
