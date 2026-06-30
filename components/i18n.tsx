@@ -32,6 +32,12 @@ const translations: Translations = {
         es: "Playlist",
         ja: "プレイリスト",
     },
+    "nav.blog": {
+        fr: "Blog",
+        en: "Blog",
+        es: "Blog",
+        ja: "ブログ",
+    },
 
     // ── PortraitSpeech ──
     "portrait.text": {
@@ -127,7 +133,8 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
     const t = useCallback(
         (key: string): string => {
             const entry = translations[key];
-            if (!entry) return key;
+            if (!entry)
+                return key;
             return entry[locale] ?? entry["fr"] ?? key;
         },
         [locale],
@@ -151,6 +158,8 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
 
 export function useI18n() {
     const ctx = useContext(I18nContext);
-    if (!ctx) throw new Error("useI18n must be used within I18nProvider");
+
+    if (!ctx)
+        throw new Error("useI18n must be used within I18nProvider");
     return ctx;
 }

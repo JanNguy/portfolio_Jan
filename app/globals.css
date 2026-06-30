@@ -371,7 +371,9 @@ body::before {
 
 .hero-header-name {
     font-size: 10rem;
-    line-height: 1;
+    line-height: 1.1;
+    width: fit-content;
+    padding-right: 0.15em;
 }
 
 .hero-header-subtitle {
@@ -531,6 +533,7 @@ body::before {
 
     .hero-header-name {
         font-size: clamp(2.8rem, 14vw, 4.5rem);
+        line-height: 1.1;
     }
 
     .hero-header-subtitle {
@@ -630,6 +633,7 @@ body::before {
 
     .hero-header-name {
         font-size: clamp(2.2rem, 13vw, 3.2rem);
+        line-height: 1.1;
     }
 
     .hero-header-subtitle {

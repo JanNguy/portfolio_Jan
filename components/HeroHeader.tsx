@@ -43,6 +43,14 @@ export default function HeroHeader({
                     <span className="times-normal text-neutral-300 mx-1 select-none">·</span>
                 </li>
                 <li>
+                    <Link href="/blog">
+                        <p className={NAV_LINK_CLASS}>{t("nav.blog")}</p>
+                    </Link>
+                </li>
+                <li>
+                    <span className="times-normal text-neutral-300 mx-1 select-none">·</span>
+                </li>
+                <li>
                     <a
                         href="https://open.spotify.com/playlist/0refPTgAoFlDIZo2wTgSYR?si=704fbeb7c10f4514"
                         target="_blank"
