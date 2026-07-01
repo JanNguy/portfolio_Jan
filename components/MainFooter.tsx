@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useI18n } from "./i18n";
 
 function getParisTime() {
   return new Date().toLocaleTimeString("fr-FR", {
@@ -16,7 +15,6 @@ export default function MainFooter() {
   const [isOnline, setIsOnline] = useState(true);
   const [parisTime, setParisTime] = useState(getParisTime());
   const [isAvailable, setIsAvailable] = useState(true);
-  const { t } = useI18n();
 
   useEffect(() => {
     setIsOnline(navigator.onLine);
@@ -51,7 +49,7 @@ export default function MainFooter() {
               aria-hidden
             />
             <span className={`font-medium ${isAvailable ? "text-emerald-400" : "text-zinc-400"}`}>
-              {isAvailable ? t("footer.available") : t("footer.offline")}
+              {isAvailable ? "Disponible (9h-19h)" : "Hors ligne"}
             </span>
           </p>
           <p className="font-mono text-lg text-zinc-300">{parisTime}</p>

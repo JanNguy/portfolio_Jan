@@ -2,10 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
-import { useI18n } from "./i18n";
 
 function ContactPage() {
-    const { t } = useI18n();
     const [hoveredId, setHoveredId] = React.useState<number | null>(null);
     const [selectedId, setSelectedId] = React.useState<number | null>(null);
 
@@ -132,7 +130,7 @@ function ContactPage() {
             <div className="w-full md:w-1/4 h-auto md:h-full flex flex-col justify-between items-center bg-white py-6 md:py-10 shadow-lg">
                 <div>
                     <h1 className="griffiths text-[80px] xl:text-[95px] lg:text-[80px] md:text-[75px] sm:text-[60px] text-gray-800 text-center transform -translate-x-2 md:-translate-x-5 mx-[5%]">
-                        {t("contact.title")}
+                        {"Contact"}
                     </h1>
                     <div className="flex flex-row justify-center gap-6 mt-4 mx-auto">
                         {socialLinks.map((link) => (
@@ -152,7 +150,7 @@ function ContactPage() {
                     href="/"
                     className="griffiths text-3xl md:text-5xl text-gray-400 hover:text-gray-800 transition-colors mt-5"
                 >
-                    {t("contact.back")}
+                    {"Retour"}
                 </Link>
             </div>
 
@@ -160,7 +158,7 @@ function ContactPage() {
                 <p
                     className={`absolute text-lg md:text-2xl text-gray-300 transition-opacity duration-500 text-center ${hoveredId === null && selectedId === null ? "opacity-100" : "opacity-0"}`}
                 >
-                    {t("contact.tap")}
+                    {"Tape sur une icône pour voir les détails"}
                 </p>
                 {socialLinks.map((link) => (
                     <div

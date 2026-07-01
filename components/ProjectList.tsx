@@ -1,7 +1,5 @@
 "use client";
 
-import { useI18n } from "./i18n";
-
 export type Project = {
     name: string;
     description: string;
@@ -9,8 +7,6 @@ export type Project = {
 };
 
 export default function ProjectList({ projects }: { projects: Project[] }) {
-    const { t } = useI18n();
-
     return (
         <div className="mt-4 sm:mt-6" style={{ maxWidth: "36ch" }}>
             <div className="flex flex-col gap-0">

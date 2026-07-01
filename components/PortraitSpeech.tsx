@@ -1,11 +1,8 @@
 "use client";
 
 import React from "react";
-import { useI18n } from "./i18n";
 
 export default function PortraitSpeech() {
-  const { t } = useI18n();
-
   return (
     <div className="portrait-speech">
       <img
@@ -15,7 +12,7 @@ export default function PortraitSpeech() {
         loading="lazy"
       />
       <p className="times-normal portrait-speech-text">
-        {t("portrait.text")}
+        Aussi loin que je me rappelle j'ai toujours été fasciné par l'informatique. De Pokémon Perle à Minecraft, j'ai toujours aimé chercher, bidouiller, tester, optimiser. Merci à mon père pour m'avoir depuis petit initié à ce magnifique monde.
       </p>
     </div>
   );

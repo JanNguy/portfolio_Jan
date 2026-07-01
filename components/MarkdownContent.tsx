@@ -2,6 +2,25 @@
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import type { ReactNode } from "react";
+
+function headingId(children: ReactNode): string {
+    const text = extractText(children);
+    return text
+        .toLowerCase()
+        .replace(/[^a-z0-9\u00e0-\u00fc]+/g, "-")
+        .replace(/(^-|-$)/g, "");
+}
+
+function extractText(node: ReactNode): string {
+    if (typeof node === "string") return node;
+    if (typeof node === "number") return String(node);
+    if (Array.isArray(node)) return node.map(extractText).join("");
+    if (node && typeof node === "object" && "props" in node) {
+        return extractText((node as any).props.children);
+    }
+    return "";
+}
 
 export default function MarkdownContent({ content }: { content: string }) {
     return (
@@ -13,7 +32,7 @@ export default function MarkdownContent({ content }: { content: string }) {
                         <h1 className="griffiths text-5xl sm:text-6xl mt-12 mb-6">{children}</h1>
                     ),
                     h2: ({ children }) => (
-                        <h2 className="griffiths text-3xl sm:text-4xl mt-10 mb-4">{children}</h2>
+                        <h2 id={headingId(children)} className="griffiths text-3xl sm:text-4xl mt-10 mb-4 scroll-mt-32">{children}</h2>
                     ),
                     h3: ({ children }) => (
                         <h3 className="griffiths text-2xl sm:text-3xl mt-8 mb-3">{children}</h3>

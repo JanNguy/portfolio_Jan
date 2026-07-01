@@ -3,7 +3,6 @@
 import { useState } from "react";
 import HeroHeader from "../components/HeroHeader";
 import PortraitSpeech from "../components/PortraitSpeech";
-import LanguageSwitcher from "../components/LanguageSwitcher";
 import MainFooter from "../components/MainFooter";
 
 const PROJECTS = [
@@ -19,7 +18,6 @@ export default function HomePage() {
 
     return (
         <div className="page">
-            <LanguageSwitcher />
             <HeroHeader
                 showProjects={showProjects}
                 projects={PROJECTS}
