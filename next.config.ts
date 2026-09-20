@@ -12,6 +12,8 @@ export default function createNextConfig(phase: string): NextConfig {
     reactStrictMode: true,
     outputFileTracingRoot: currentDir,
     distDir: isDevServer ? ".next-dev" : ".next",
+    // @libsql/client charge un binaire natif (SQLite) : on le laisse externe au bundler
+    serverExternalPackages: ["@libsql/client"],
     images: {
       remotePatterns: [
         {

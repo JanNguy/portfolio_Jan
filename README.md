@@ -32,3 +32,19 @@ pnpm dev
 pnpm build
 pnpm start
 ```
+
+## Commentaires des notes
+
+Chaque note (`/blog/*`) affiche les commentaires à droite du texte.
+
+- **Base SQLite** via `@libsql/client` (dialecte SQLite, requêtes paramétrées → immunisées contre l'injection SQL).
+- **Local** : aucune config — un fichier `data/comments.db` est créé au premier commentaire (non commité, voir `.gitignore`).
+- **Production (Vercel)** : le disque est éphémère, il faut une base SQLite hébergée. Crée une base libre chez [Turso](https://turso.tech) puis renseigne les variables d'environnement (localement via `.env.local`, et dans le panneau Vercel) :
+
+  ```
+  TURSO_URL=libsql://...
+  TURSO_AUTH_TOKEN=...
+  ```
+
+- **Pas de login** : le visiteur choisit un pseudo. Chaque commentaire stocke en base une trace (IP, user-agent, horodatage UTC) pour la modération.
+- **Anti-spam** : un champ honeypot invisible, une limitation de débit (5 commentaires / 10 min par IP) et un plafond de 400 commentaires par note.

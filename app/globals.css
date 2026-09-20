@@ -652,3 +652,12 @@ body::before {
         margin: 0 1rem;
     }
 }
+
+/* ── Notes : colonne commentaires à droite ──────────────────────────────── *
+   Élargit la colonne `.page-root` pour accueillir texte + commentaires.
+   Placée en fin de fichier pour primer sur les règles `.page-root` (60/70 %). */
+@media (min-width: 1024px) {
+    .page-root--wide {
+        max-width: 80rem;
+    }
+}

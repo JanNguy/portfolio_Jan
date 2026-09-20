@@ -3,7 +3,9 @@
 import { useState, useEffect } from "react";
 import MainFooter from "../../../components/MainFooter";
 import MarkdownContent from "../../../components/MarkdownContent";
+import CommentsPanel from "../../../components/CommentsPanel";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 function slugify(text: string): string {
     return text
@@ -18,6 +20,10 @@ function extractHeadings(content: string): string[] {
 
 export default function BlogPost({ content }: { content: string }) {
     const headings = extractHeadings(content);
+    const pathname = usePathname();
+    const postId = (pathname?.split("/").filter(Boolean).pop() ?? "notes")
+        .replace(/[^a-z0-9-]+/gi, "-")
+        .slice(0, 120);
     const [activeId, setActiveId] = useState("");
 
     useEffect(() => {
@@ -83,8 +89,13 @@ export default function BlogPost({ content }: { content: string }) {
 
             <div className="content">
                 <div className="pt-32 pb-24 px-4 sm:px-8 lg:pl-72">
-                    <div className="max-w-prose mx-auto">
-                        <MarkdownContent content={content} />
+                    <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,23rem)] lg:items-start">
+                        <article className="min-w-0 max-w-prose mx-auto lg:mx-0">
+                            <MarkdownContent content={content} />
+                        </article>
+                        <div className="min-w-0 lg:sticky lg:top-28">
+                            <CommentsPanel postId={postId} />
+                        </div>
                     </div>
                 </div>
             </div>
