@@ -27,6 +27,11 @@ export default function BlogPage() {
                             description="Mes premières réflexions sur ce blog."
                             href="/blog/premieres-pensees"
                         />
+                        <NavItem
+                            name="Le bibliothécaire"
+                            description="Une réflexion sur les livres, la mémoire et l'écriture."
+                            href="/blog/le-bibliothecaire"
+                        />
                     </ul>
                 </div>
             </div>
