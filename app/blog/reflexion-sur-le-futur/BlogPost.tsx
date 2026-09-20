@@ -89,7 +89,7 @@ export default function BlogPost({ content }: { content: string }) {
 
             <div className="content">
                 <div className="pt-32 pb-24 px-4 sm:px-8 lg:pl-72">
-                    <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,23rem)] lg:items-start">
+                    <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,30rem)] lg:items-start">
                         <article className="min-w-0 max-w-prose mx-auto lg:mx-0">
                             <MarkdownContent content={content} />
                         </article>

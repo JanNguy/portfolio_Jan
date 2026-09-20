@@ -16,7 +16,7 @@ export default function BlogPost({ content }: { content: string }) {
         <div className="page">
             <div className="content page-root page-root--wide pt-32">
                 <Link href="/blog" className="times-normal text-neutral-400 hover:text-neutral-700 transition-colors duration-200 text-sm mb-8 inline-block">&larr; Notes</Link>
-                <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,23rem)] lg:items-start">
+                <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,30rem)] lg:items-start">
                     <article className="min-w-0 max-w-prose">
                         <MarkdownContent content={content} />
                     </article>

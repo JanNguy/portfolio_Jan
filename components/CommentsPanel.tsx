@@ -123,21 +123,18 @@ export default function CommentsPanel({ postId }: { postId: string }) {
     }
 
     return (
-        <aside
-            id="commentaires"
-            className="rounded-2xl border border-neutral-200 bg-white/70 p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)] backdrop-blur-sm sm:p-6"
-        >
-            <h2 className="griffiths text-2xl text-neutral-900">
-                Commentaires
+        <section id="commentaires" aria-label="Commentaires" className="border-t border-neutral-200 pt-8 sm:pt-10">
+            <div className="flex items-baseline gap-3">
+                <h2 className="griffiths text-3xl sm:text-4xl text-neutral-900">Commentaires</h2>
                 {count > 0 && (
-                    <span className="align-middle ml-2 rounded-full bg-neutral-100 px-2 py-0.5 font-sans text-xs font-medium text-neutral-500">
-                        {count}
+                    <span className="font-sans text-sm text-neutral-400 tabular-nums">
+                        · {count}
                     </span>
                 )}
-            </h2>
+            </div>
 
             {/* ── Formulaire ─────────────────────────────────────────────── */}
-            <form onSubmit={onSubmit} className="mt-5 space-y-3">
+            <form onSubmit={onSubmit} className="mt-6 space-y-5">
                 <div aria-hidden="true" className="absolute left-[-9999px] top-auto h-0 w-0 overflow-hidden">
                     <label htmlFor="website">Veuillez ne pas remplir ce champ</label>
                     <input
@@ -152,7 +149,7 @@ export default function CommentsPanel({ postId }: { postId: string }) {
                 </div>
 
                 <label className="block">
-                    <span className="mb-1 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+                    <span className="mb-1 block font-sans text-xs font-medium uppercase tracking-wider text-neutral-400">
                         Pseudo
                     </span>
                     <input
@@ -165,12 +162,12 @@ export default function CommentsPanel({ postId }: { postId: string }) {
                         }}
                         maxLength={MAX_PSEUDO}
                         placeholder="Anonyme"
-                        className="w-full rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm text-neutral-900 placeholder:text-neutral-400 transition-colors focus:border-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-200"
+                        className="times-normal w-full rounded-none border-0 border-b border-neutral-200 bg-transparent px-0 py-2 text-base text-neutral-900 placeholder:text-neutral-400 transition-colors focus:border-neutral-900 focus:outline-none focus:ring-0"
                     />
                 </label>
 
                 <label className="block">
-                    <span className="mb-1 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+                    <span className="mb-1 block font-sans text-xs font-medium uppercase tracking-wider text-neutral-400">
                         Commentaire
                     </span>
                     <textarea
@@ -184,9 +181,9 @@ export default function CommentsPanel({ postId }: { postId: string }) {
                         rows={4}
                         required
                         placeholder="Écris ici ta réflexion…"
-                        className="w-full resize-y rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm leading-relaxed text-neutral-900 placeholder:text-neutral-400 transition-colors focus:border-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-200"
+                        className="times-normal w-full resize-y rounded-none border-0 border-b border-neutral-200 bg-transparent px-0 py-2 text-base leading-relaxed text-neutral-900 placeholder:text-neutral-400 transition-colors focus:border-neutral-900 focus:outline-none focus:ring-0"
                     />
-                    <span className="mt-1 block text-right text-[11px] tabular-nums text-neutral-400">
+                    <span className="mt-1 block font-sans text-right text-xs tabular-nums text-neutral-400">
                         {body.length}/{MAX_BODY}
                     </span>
                 </label>
@@ -194,7 +191,7 @@ export default function CommentsPanel({ postId }: { postId: string }) {
                 <button
                     type="submit"
                     disabled={submitting || !body.trim()}
-                    className="w-full rounded-lg border border-neutral-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-900 shadow-sm transition-colors hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="inline-flex items-center rounded-full bg-neutral-900 px-5 py-2 font-sans text-sm font-medium text-white transition-colors hover:bg-neutral-700 disabled:cursor-not-allowed disabled:opacity-40"
                 >
                     {submitting ? "Envoi…" : "Publier"}
                 </button>
@@ -212,7 +209,7 @@ export default function CommentsPanel({ postId }: { postId: string }) {
             </form>
 
             {/* ── Liste ───────────────────────────────────────────────────── */}
-            <div className="mt-6 border-t border-neutral-200 pt-4">
+            <div className="mt-10 border-t border-neutral-200 pt-6">
                 {loading ? (
                     <p className="times-normal text-sm text-neutral-400 italic">Chargement des commentaires…</p>
                 ) : comments.length === 0 ? (
@@ -230,7 +227,7 @@ export default function CommentsPanel({ postId }: { postId: string }) {
                                         </p>
                                         <time
                                             dateTime={comment.createdAt}
-                                            className="text-[11px] text-neutral-400 tabular-nums"
+                                            className="font-sans text-xs text-neutral-400 tabular-nums"
                                         >
                                             {formatDate(comment.createdAt)}
                                         </time>
@@ -242,7 +239,7 @@ export default function CommentsPanel({ postId }: { postId: string }) {
                             ))}
                         </ul>
                         {count > comments.length && (
-                            <p className="pt-3 text-[11px] text-neutral-400">
+                            <p className="pt-3 font-sans text-xs text-neutral-400">
                                 {count - comments.length} autre{count - comments.length > 1 ? "s" : ""} commentaire
                                 {count - comments.length > 1 ? "s" : ""} déjà posté{count - comments.length > 1 ? "s" : ""}…
                             </p>
@@ -250,6 +247,6 @@ export default function CommentsPanel({ postId }: { postId: string }) {
                     </>
                 )}
             </div>
-        </aside>
+        </section>
     );
 }
