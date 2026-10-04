@@ -1,69 +1,48 @@
-"use client";
+import type { CSSProperties } from "react";
+import type { Project } from "@/data/projects";
 
-export type Project = {
-    name: string;
-    description: string;
-    link?: string;
-};
-
+/** La liste rapide ouverte par le bouton « Projects » du hero. */
 export default function ProjectList({ projects }: { projects: Project[] }) {
     return (
-        <div className="mt-4 sm:mt-6" style={{ maxWidth: "36ch" }}>
-            <div className="flex flex-col gap-0">
-                {projects.map((project, i) => (
-                    <div
-                        key={project.name}
-                        className="group py-2.5 sm:py-3"
-                        style={{
+        <div id="projets-rapides" className="mt-4 sm:mt-5" style={{ maxWidth: "36ch" }}>
+            {projects.map((project, index) => (
+                <div
+                    key={project.slug}
+                    className="project-row py-2.5 sm:py-3"
+                    style={
+                        {
+                            "--row-index": index,
                             borderBottom:
-                                i < projects.length - 1
-                                    ? "1px solid rgba(0,0,0,0.08)"
-                                    : "none",
-                            animation: `projectFadeIn 400ms ${i * 80}ms both ease-out`,
-                        }}
-                    >
-                        {project.link ? (
-                            <a
-                                href={project.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="times-normal text-[0.9rem] sm:text-[1rem] text-neutral-900 hover:text-neutral-500 transition-colors duration-300 leading-tight"
-                                style={{ textDecoration: "none" }}
+                                index < projects.length - 1 ? "1px solid var(--rule)" : "none",
+                        } as CSSProperties
+                    }
+                >
+                    {project.link ? (
+                        <a
+                            href={project.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="times-normal group inline-block text-[0.95rem] leading-tight text-neutral-900 no-underline transition-colors duration-300 hover:text-neutral-500"
+                        >
+                            {project.title}
+                            <span
+                                className="ml-1.5 text-[0.7rem] text-neutral-400 transition-colors duration-300 group-hover:text-neutral-600"
+                                aria-hidden="true"
                             >
-                                {project.name}
-                                <span
-                                    className="text-neutral-300 ml-1.5 group-hover:text-neutral-500 transition-colors duration-300"
-                                    style={{ fontSize: "0.7rem" }}
-                                >
-                                    ↗
-                                </span>
-                            </a>
-                        ) : (
-                            <p className="times-normal text-[0.9rem] sm:text-[1rem] text-neutral-900 leading-tight">
-                                {project.name}
-                            </p>
-                        )}
-                        {project.description && (
-                            <p className="times-normal text-neutral-400 mt-0.5 leading-relaxed text-[0.75rem] sm:text-[0.8rem]">
-                                {project.description}
-                            </p>
-                        )}
-                    </div>
-                ))}
-            </div>
+                                ↗
+                            </span>
+                        </a>
+                    ) : (
+                        <p className="times-normal text-[0.95rem] leading-tight text-neutral-900">
+                            {project.title}
+                        </p>
+                    )}
 
-            <style jsx>{`
-                @keyframes projectFadeIn {
-                    from {
-                        opacity: 0;
-                        transform: translateY(6px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-            `}</style>
+                    <p className="times-normal mt-0.5 text-[0.8rem] leading-relaxed text-neutral-500">
+                        {project.description}
+                    </p>
+                </div>
+            ))}
         </div>
     );
 }

@@ -1,41 +1,23 @@
-"use client";
+import type { Metadata } from "next";
+import NoteList from "@/components/NoteList";
+import { notes } from "@/data/notes";
 
-import MainFooter from "../../components/MainFooter";
-import NavItem from "../../components/NavItem";
-import Link from "next/link";
+export const metadata: Metadata = {
+    title: "Notes",
+    description: "Réflexions personnelles sur la technologie, le futur et ce que je construis.",
+};
 
 export default function BlogPage() {
     return (
-        <div className="page">
-            <div className="content page-root pt-32">
-                <Link href="/" className="times-normal text-neutral-400 hover:text-neutral-700 transition-colors duration-200 text-sm mb-8 inline-block">&larr; Back</Link>
-                <h1 className="griffiths text-7xl sm:text-8xl mb-12">Notes</h1>
+        <div className="shell py-14 sm:py-20">
+            <h1 className="griffiths text-6xl sm:text-7xl">Notes</h1>
+            <p className="times-normal mt-6 max-w-prose text-lg leading-relaxed text-neutral-700 text-pretty">
+                Bienvenue sur mes notes. Ici vous pouvez lire de tout ce qui me passe par la tête.
+            </p>
 
-                <div className="max-w-prose space-y-6">
-                    <p className="times-normal text-neutral-700 text-lg leading-relaxed">
-                        Bienvenue sur mes notes. Ici vous pouvez lire de tout ce qui me passe par la tête.
-                    </p>
-
-                    <ul className="space-y-4 list-none p-0">
-                        <NavItem
-                            name="Réflexion sur le futur"
-                            description="Mes pensées sur ce que le futur nous réserve."
-                            href="/blog/reflexion-sur-le-futur"
-                        />
-                        <NavItem
-                            name="Premières Pensées"
-                            description="Mes premières réflexions sur ce blog."
-                            href="/blog/premieres-pensees"
-                        />
-                        <NavItem
-                            name="Le bibliothécaire"
-                            description="Une réflexion sur les livres, la mémoire et l'écriture."
-                            href="/blog/le-bibliothecaire"
-                        />
-                    </ul>
-                </div>
+            <div className="mt-12 sm:mt-14">
+                <NoteList notes={notes} />
             </div>
-            <MainFooter />
         </div>
     );
 }

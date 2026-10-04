@@ -1,176 +1,231 @@
 "use client";
 
-import React from "react";
-import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import {
+    EMAIL,
+    GITHUB_URL,
+    LINKEDIN_URL,
+    LOCATION,
+    TIMEZONE,
+    X_URL,
+} from "@/data/site";
 
-function ContactPage() {
-    const [hoveredId, setHoveredId] = React.useState<number | null>(null);
-    const [selectedId, setSelectedId] = React.useState<number | null>(null);
+type Profile = {
+    id: string;
+    name: string;
+    handle: string;
+    url: string;
+    image: string;
+    caption: string;
+    meta: string;
+};
 
-    const handleMouseOver = (id: number) => {
-        if (selectedId === null) {
-            setHoveredId(id);
+const PROFILES: Profile[] = [
+    {
+        id: "x",
+        name: "X",
+        handle: "@JanNguy74478827",
+        url: X_URL,
+        image: "/ppTwitter$.jpg",
+        caption: "Jan",
+        meta: "@JanNguy74478827",
+    },
+    {
+        id: "linkedin",
+        name: "LinkedIn",
+        handle: "jan-nguyen",
+        url: LINKEDIN_URL,
+        image: "/PPLinekdin.jpg",
+        caption: "Jan Nguyen",
+        meta: "Développeur free-lance · React & TypeScript",
+    },
+    {
+        id: "github",
+        name: "GitHub",
+        handle: "JanNguy",
+        url: GITHUB_URL,
+        image: "https://avatars.githubusercontent.com/u/75522312?v=4",
+        caption: "Jan",
+        meta: "JanNguy",
+    },
+];
+
+const PROFILE_BY_ID = new Map(PROFILES.map((profile) => [profile.id, profile]));
+
+const PREVIEW_ID = "social-preview";
+
+export default function ContactPage() {
+    /** Ligne survolée ou focalisée au clavier — transitoire. */
+    const [hoveredId, setHoveredId] = useState<string | null>(null);
+    /** Ligne verrouillée au clic ou au tap — persistante. */
+    const [lockedId, setLockedId] = useState<string | null>(null);
+    const [copied, setCopied] = useState(false);
+
+    const copyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    // Le verrou prime sur le survol : la ligne choisie ne s'efface pas
+    // quand la souris repart ailleurs.
+    const activeId = lockedId ?? hoveredId;
+    const active = activeId ? PROFILE_BY_ID.get(activeId) : undefined;
+
+    useEffect(() => {
+        return () => {
+            if (copyTimer.current) clearTimeout(copyTimer.current);
+        };
+    }, []);
+
+    async function copyEmail() {
+        try {
+            await navigator.clipboard.writeText(EMAIL);
+            setCopied(true);
+            if (copyTimer.current) clearTimeout(copyTimer.current);
+            copyTimer.current = setTimeout(() => setCopied(false), 2000);
+        } catch {
+            // Presse-papiers refusé (contexte non sécurisé, permission) :
+            // l'adresse reste lisible et sélectionnable juste à côté.
         }
-    };
-
-    const handleMouseOut = () => {
-        if (selectedId === null) {
-            setHoveredId(null);
-        }
-    };
-
-    const handleClick = (id: number) => {
-        if (selectedId === id) {
-            setSelectedId(null);
-            setHoveredId(null);
-        } else {
-            setSelectedId(id);
-            setHoveredId(id);
-        }
-    };
-
-    const isVisible = (id: number) => hoveredId === id || selectedId === id;
-
-    const socialLinks = [
-        {
-            id: 1,
-            name: "X",
-            icon: "/X_logo_2023.svg",
-            url: "/ppTwitter$.jpg",
-            link: "https://x.com/JanNguy74478827",
-            component: (
-                <a
-                    href="https://x.com/JanNguy74478827"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-[90vw] max-w-[600px] h-[200px] md:h-[250px] rounded-2xl shadow-2xl overflow-hidden bg-white cursor-pointer no-underline"
-                >
-                    <div className="flex items-center p-4 md:p-8">
-                        <img
-                            className="h-20 w-20 md:h-32 md:w-32 rounded-full"
-                            src="/ppTwitter$.jpg"
-                            alt="Photo de profil X"
-                        />
-                        <div className="ml-4 md:ml-6">
-                            <p className="text-2xl md:text-4xl font-bold text-gray-800">
-                                Jan
-                            </p>
-                            <p className="text-lg md:text-2xl text-gray-500">
-                                @JanNguy74478827
-                            </p>
-                        </div>
-                    </div>
-                </a>
-            ),
-        },
-        {
-            id: 2,
-            name: "LinkedIn",
-            icon: "/linkedin.svg",
-            url: "/PPLinekdin.jpg",
-            link: "https://www.linkedin.com/in/jan-nguyen-0aa40b315/",
-            component: (
-                <a
-                    href="https://www.linkedin.com/in/jan-nguyen-0aa40b315/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-[90vw] max-w-[600px] rounded-2xl shadow-2xl overflow-hidden bg-white cursor-pointer no-underline"
-                >
-                    <div className="relative">
-                        <div className="w-full h-32 md:h-40 bg-[#0A66C2]" />
-                        <img
-                            className="absolute top-16 md:top-20 left-4 md:left-8 rounded-full h-20 w-20 md:h-32 md:w-32 border-4 border-white object-cover"
-                            src="/PPLinekdin.jpg"
-                            alt="Photo de profil LinkedIn"
-                        />
-                    </div>
-                    <div className="p-4 md:p-8 pt-16 md:pt-20">
-                        <p className="text-2xl md:text-3xl font-bold">
-                            Jan Nguyen
-                        </p>
-                        <p className="text-sm md:text-lg text-gray-500">
-                            Développeur Free-lance | React &amp; TypeScript
-                        </p>
-                    </div>
-                </a>
-            ),
-        },
-        {
-            id: 3,
-            name: "GitHub",
-            icon: "/github-mark.svg",
-            url: "https://github.com/JanNguy",
-            link: "https://github.com/JanNguy",
-            component: (
-                <a
-                    href="https://github.com/JanNguy"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex w-[90vw] max-w-[600px] h-[200px] md:h-[250px] rounded-2xl shadow-2xl bg-white items-center p-4 md:p-8 cursor-pointer no-underline"
-                >
-                    <img
-                        className="h-20 w-20 md:h-32 md:w-32 rounded-full"
-                        src="https://avatars.githubusercontent.com/u/75522312?v=4"
-                        alt="Photo de profil GitHub"
-                        referrerPolicy="no-referrer"
-                    />
-                    <div className="ml-4 md:ml-6">
-                        <p className="text-3xl md:text-5xl font-bold">Jan</p>
-                        <p className="text-lg md:text-2xl text-gray-600">
-                            JanNguy
-                        </p>
-                    </div>
-                </a>
-            ),
-        },
-    ];
+    }
 
     return (
-        <div className="flex flex-col md:flex-row w-screen h-screen font-sans bg-gray-50">
-            <div className="w-full md:w-1/4 h-auto md:h-full flex flex-col justify-between items-center bg-white py-6 md:py-10 shadow-lg">
-                <div>
-                    <h1 className="griffiths text-[80px] xl:text-[95px] lg:text-[80px] md:text-[75px] sm:text-[60px] text-gray-800 text-center transform -translate-x-2 md:-translate-x-5 mx-[5%]">
-                        {"Contact"}
-                    </h1>
-                    <div className="flex flex-row justify-center gap-6 mt-4 mx-auto">
-                        {socialLinks.map((link) => (
-                            <img
-                                key={link.id}
-                                src={link.icon}
-                                alt={link.name}
-                                onMouseOver={() => handleMouseOver(link.id)}
-                                onMouseOut={handleMouseOut}
-                                onClick={() => handleClick(link.id)}
-                                className="w-9 h-9 cursor-pointer transition-transform duration-200 hover:scale-125"
-                            />
-                        ))}
-                    </div>
-                </div>
-                <Link
-                    href="/"
-                    className="griffiths text-3xl md:text-5xl text-gray-400 hover:text-gray-800 transition-colors mt-5"
-                >
-                    {"Retour"}
-                </Link>
-            </div>
+        <div
+            className="shell py-14 sm:py-20"
+            onKeyDown={(event) => {
+                if (event.key === "Escape") setLockedId(null);
+            }}
+        >
+            <h1 className="griffiths text-6xl sm:text-7xl">Contact</h1>
 
-            <main className="flex-1 relative flex items-center justify-center p-4">
-                <p
-                    className={`absolute text-lg md:text-2xl text-gray-300 transition-opacity duration-500 text-center ${hoveredId === null && selectedId === null ? "opacity-100" : "opacity-0"}`}
+            <p className="times-normal mt-6 max-w-prose text-lg leading-relaxed text-neutral-700 text-pretty">
+                Une idée, un projet, une question&nbsp;? Écris-moi — je réponds
+                volontiers, que ce soit pour un mandat ou juste pour discuter.
+            </p>
+
+            {/* ── Coordonnées ───────────────────────────────────────────── */}
+            <dl className="mt-10 max-w-prose border-t border-black/10">
+                <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-black/10 py-5">
+                    <dt className="eyebrow w-28 shrink-0">Email</dt>
+                    <dd className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                        <a
+                            href={`mailto:${EMAIL}`}
+                            className="times-normal text-lg text-neutral-900 underline decoration-neutral-300 underline-offset-4 transition-colors duration-200 hover:decoration-neutral-900"
+                        >
+                            {EMAIL}
+                        </a>
+                        <button
+                            type="button"
+                            onClick={copyEmail}
+                            className="times-normal cursor-pointer border-0 bg-transparent p-0 text-sm text-neutral-500 transition-colors duration-200 hover:text-black"
+                        >
+                            {copied ? "copié" : "copier"}
+                        </button>
+                        <span role="status" className="sr-only">
+                            {copied ? "Adresse copiée dans le presse-papiers." : ""}
+                        </span>
+                    </dd>
+                </div>
+
+                <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-black/10 py-5">
+                    <dt className="eyebrow w-28 shrink-0">Localisation</dt>
+                    <dd className="times-normal text-lg text-neutral-900">
+                        {LOCATION}{" "}
+                        <span className="text-neutral-500">· {TIMEZONE}</span>
+                    </dd>
+                </div>
+            </dl>
+
+            <p className="eyebrow mt-14">Sur internet</p>
+            <p className="times-normal mt-3 max-w-prose text-neutral-600 text-pretty">
+                Survole une ligne, ou sélectionne-la, pour en voir un aperçu.
+            </p>
+
+            <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:items-start lg:gap-16">
+                {/* Aperçu — placé avant la liste sur mobile pour rester dans le
+                    champ de vision au moment du tap. */}
+                <div
+                    id={PREVIEW_ID}
+                    aria-live="polite"
+                    className="order-1 lg:order-2 lg:sticky lg:top-8"
                 >
-                    {"Tape sur une icône pour voir les détails"}
-                </p>
-                {socialLinks.map((link) => (
-                    <div
-                        key={link.id}
-                        className={`absolute transition-all duration-500 ease-in-out ${isVisible(link.id) ? "opacity-100 scale-100" : "opacity-0 scale-90 pointer-events-none"}`}
-                    >
-                        {link.component}
-                    </div>
-                ))}
-            </main>
+                    {active ? (
+                        <div className="flex items-start gap-5 border-t border-black/10 pt-6">
+                            <img
+                                src={active.image}
+                                alt=""
+                                width={96}
+                                height={96}
+                                loading="lazy"
+                                decoding="async"
+                                referrerPolicy="no-referrer"
+                                className="h-20 w-20 shrink-0 rounded-full object-cover lg:h-24 lg:w-24"
+                            />
+                            <div className="min-w-0">
+                                <p className="griffiths text-2xl">{active.caption}</p>
+                                <p className="times-normal mt-1 text-neutral-500">
+                                    {active.meta}
+                                </p>
+                                <a
+                                    href={active.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="times-normal mt-3 inline-block text-neutral-900 underline decoration-neutral-300 underline-offset-4 transition-colors duration-200 hover:decoration-neutral-900"
+                                >
+                                    Ouvrir le profil ↗
+                                </a>
+                            </div>
+                        </div>
+                    ) : (
+                        <p className="times-normal border-t border-black/10 pt-6 text-neutral-400 italic lg:pt-6">
+                            Aucun réseau sélectionné.
+                        </p>
+                    )}
+                </div>
+
+                {/* ── Réseaux ──────────────────────────────────────────── */}
+                <ul className="order-2 m-0 list-none border-t border-black/10 p-0 lg:order-1">
+                    {PROFILES.map((profile) => {
+                        const isActive = activeId === profile.id;
+
+                        return (
+                            <li key={profile.id} className="border-b border-black/10">
+                                <button
+                                    type="button"
+                                    aria-expanded={isActive}
+                                    aria-controls={PREVIEW_ID}
+                                    onMouseEnter={() => setHoveredId(profile.id)}
+                                    onMouseLeave={() => setHoveredId(null)}
+                                    onFocus={() => setHoveredId(profile.id)}
+                                    onBlur={() => setHoveredId(null)}
+                                    onClick={() =>
+                                        setLockedId((current) =>
+                                            current === profile.id ? null : profile.id,
+                                        )
+                                    }
+                                    className={`flex w-full cursor-pointer items-baseline justify-between gap-4 border-0 bg-transparent px-2 py-5 text-left transition-colors duration-200 ${
+                                        isActive ? "bg-black/[0.03]" : "hover:bg-black/[0.02]"
+                                    }`}
+                                >
+                                    <span className="min-w-0">
+                                        <span className="griffiths block text-2xl text-neutral-900">
+                                            {profile.name}
+                                        </span>
+                                        <span className="times-normal block text-neutral-500">
+                                            {profile.handle}
+                                        </span>
+                                    </span>
+                                    <span
+                                        aria-hidden="true"
+                                        className={`times-normal shrink-0 text-neutral-400 transition-transform duration-200 ${
+                                            isActive ? "translate-x-1 text-neutral-900" : ""
+                                        }`}
+                                    >
+                                        ↗
+                                    </span>
+                                </button>
+                            </li>
+                        );
+                    })}
+                </ul>
+            </div>
         </div>
     );
 }
-
-export default ContactPage;

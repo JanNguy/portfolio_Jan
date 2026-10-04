@@ -1,74 +1,73 @@
-"use client";
-
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { slugify } from "@/lib/headings";
 import type { ReactNode } from "react";
-
-function headingId(children: ReactNode): string {
-    const text = extractText(children);
-    return text
-        .toLowerCase()
-        .replace(/[^a-z0-9\u00e0-\u00fc]+/g, "-")
-        .replace(/(^-|-$)/g, "");
-}
 
 function extractText(node: ReactNode): string {
     if (typeof node === "string") return node;
     if (typeof node === "number") return String(node);
     if (Array.isArray(node)) return node.map(extractText).join("");
     if (node && typeof node === "object" && "props" in node) {
-        return extractText((node as any).props.children);
+        return extractText((node as { props: { children?: ReactNode } }).props.children);
     }
     return "";
 }
 
 export default function MarkdownContent({ content }: { content: string }) {
     return (
-        <div className="times-normal text-neutral-700 text-lg leading-relaxed space-y-4">
+        <div className="times-normal text-neutral-700 text-lg leading-relaxed">
             <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
                     h1: ({ children }) => (
-                        <h1 className="griffiths text-5xl sm:text-6xl mt-12 mb-6">{children}</h1>
+                        <h1 className="griffiths text-4xl sm:text-5xl mb-6">{children}</h1>
                     ),
+                    // Même `slugify` que celui utilisé par le sommaire, sinon les ancres cassent.
                     h2: ({ children }) => (
-                        <h2 id={headingId(children)} className="griffiths text-3xl sm:text-4xl mt-10 mb-4 scroll-mt-32">{children}</h2>
+                        <h2
+                            id={slugify(extractText(children))}
+                            className="griffiths text-3xl sm:text-4xl mt-12 mb-4 scroll-mt-8"
+                        >
+                            {children}
+                        </h2>
                     ),
                     h3: ({ children }) => (
-                        <h3 className="griffiths text-2xl sm:text-3xl mt-8 mb-3">{children}</h3>
+                        <h3 className="griffiths text-2xl sm:text-3xl mt-9 mb-3">{children}</h3>
                     ),
                     p: ({ children }) => (
-                        <p className="times-normal text-neutral-700 text-lg leading-relaxed mb-4">{children}</p>
+                        <p className="text-neutral-700 text-lg leading-relaxed mb-5 text-pretty">
+                            {children}
+                        </p>
                     ),
                     a: ({ href, children }) => (
                         <a
                             href={href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-neutral-700 underline underline-offset-4 decoration-neutral-300 hover:decoration-neutral-700 transition-colors duration-200"
+                            className="text-neutral-900 underline underline-offset-4 decoration-neutral-300 transition-colors duration-200 hover:decoration-neutral-900"
                         >
                             {children}
                         </a>
                     ),
-                    ul: ({ children }) => (
-                        <ul className="list-disc pl-6 space-y-2 mb-4">{children}</ul>
-                    ),
-                    ol: ({ children }) => (
-                        <ol className="list-decimal pl-6 space-y-2 mb-4">{children}</ol>
-                    ),
-                    li: ({ children }) => (
-                        <li className="times-normal text-neutral-700 text-lg leading-relaxed">{children}</li>
-                    ),
+                    ul: ({ children }) => <ul className="list-disc pl-6 mb-5 space-y-2">{children}</ul>,
+                    ol: ({ children }) => <ol className="list-decimal pl-6 mb-5 space-y-2">{children}</ol>,
+                    li: ({ children }) => <li className="text-neutral-700 leading-relaxed">{children}</li>,
                     code: ({ children }) => (
-                        <code className="text-neutral-500 text-sm bg-neutral-100 px-1.5 py-0.5 rounded">{children}</code>
+                        <code className="text-neutral-700 text-sm bg-black/5 px-1.5 py-0.5 rounded">
+                            {children}
+                        </code>
                     ),
                     pre: ({ children }) => (
-                        <pre className="bg-neutral-50 border border-neutral-200 rounded-lg p-4 overflow-x-auto mb-4">{children}</pre>
+                        <pre className="bg-black/[0.04] border border-black/10 rounded-lg p-4 overflow-x-auto mb-5 text-sm">
+                            {children}
+                        </pre>
                     ),
                     blockquote: ({ children }) => (
-                        <blockquote className="border-l-4 border-neutral-300 pl-4 italic text-neutral-500 mb-4">{children}</blockquote>
+                        <blockquote className="border-l-2 border-black/20 pl-5 italic text-neutral-500 mb-5">
+                            {children}
+                        </blockquote>
                     ),
-                    hr: () => <hr className="border-neutral-200 my-8" />,
+                    hr: () => <hr className="border-black/10 my-10" />,
                 }}
             >
                 {content}

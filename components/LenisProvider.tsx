@@ -1,17 +1,37 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import Lenis from "lenis";
 
-export default function LenisProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const lenisRef = useRef<Lenis | null>(null);
+/**
+ * Lenis n'intercepte pas les liens `href="#ancre"`, et le CSS désactive le
+ * défilement fluide natif tant que Lenis tourne. On expose donc l'instance
+ * pour que les ancres puissent appeler `lenis.scrollTo(...)`.
+ */
+const LenisContext = createContext<Lenis | null>(null);
+
+export function useLenis(): Lenis | null {
+  return useContext(LenisContext);
+}
+
+export default function LenisProvider({ children }: { children: ReactNode }) {
+  const [lenis, setLenis] = useState<Lenis | null>(null);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
-    const lenis = new Lenis({
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    // Mouvement réduit : on laisse le défilement natif, sans jamais instancier Lenis.
+    if (query.matches) return;
+
+    const instance = new Lenis({
       duration: 1.4,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
@@ -21,19 +41,22 @@ export default function LenisProvider({
       touchMultiplier: 1.5,
     });
 
-    lenisRef.current = lenis;
+    setLenis(instance);
 
     function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
+      instance.raf(time);
+      rafRef.current = requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf);
+    rafRef.current = requestAnimationFrame(raf);
 
     return () => {
-      lenis.destroy();
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+      instance.destroy();
+      setLenis(null);
     };
   }, []);
 
-  return <>{children}</>;
+  return <LenisContext.Provider value={lenis}>{children}</LenisContext.Provider>;
 }

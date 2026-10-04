@@ -162,7 +162,7 @@ export default function CommentsPanel({ postId }: { postId: string }) {
                         }}
                         maxLength={MAX_PSEUDO}
                         placeholder="Anonyme"
-                        className="times-normal w-full rounded-none border-0 border-b border-neutral-200 bg-transparent px-0 py-2 text-base text-neutral-900 placeholder:text-neutral-400 transition-colors focus:border-neutral-900 focus:outline-none focus:ring-0"
+                        className="times-normal w-full rounded-none border-0 border-b border-neutral-200 bg-transparent px-0 py-2 text-base text-neutral-900 placeholder:text-neutral-400 transition-colors focus:border-neutral-900"
                     />
                 </label>
 
@@ -181,7 +181,7 @@ export default function CommentsPanel({ postId }: { postId: string }) {
                         rows={4}
                         required
                         placeholder="Écris ici ta réflexion…"
-                        className="times-normal w-full resize-y rounded-none border-0 border-b border-neutral-200 bg-transparent px-0 py-2 text-base leading-relaxed text-neutral-900 placeholder:text-neutral-400 transition-colors focus:border-neutral-900 focus:outline-none focus:ring-0"
+                        className="times-normal w-full resize-y rounded-none border-0 border-b border-neutral-200 bg-transparent px-0 py-2 text-base leading-relaxed text-neutral-900 placeholder:text-neutral-400 transition-colors focus:border-neutral-900"
                     />
                     <span className="mt-1 block font-sans text-right text-xs tabular-nums text-neutral-400">
                         {body.length}/{MAX_BODY}

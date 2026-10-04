@@ -11,9 +11,23 @@ const manrope = Manrope({
   display: "swap",
 });
 
+const DESCRIPTION =
+  "Développeur full-stack et étudiant à Epitech Lyon, passionné par le bas niveau, le web et l'intelligence artificielle.";
+
 export const metadata: Metadata = {
-  title: "Portfolio",
-  description: "Base vierge du portfolio.",
+  title: {
+    default: "Jan Nguyen — Développeur full-stack",
+    template: "%s · Jan Nguyen",
+  },
+  description: DESCRIPTION,
+  authors: [{ name: "Jan Nguyen" }],
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    siteName: "Jan Nguyen",
+    title: "Jan Nguyen — Développeur full-stack",
+    description: DESCRIPTION,
+  },
 };
 
 export default function RootLayout({
@@ -22,9 +36,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="fr">
       <body className={`${manrope.variable} antialiased`}>
-          <LenisProvider>{children}</LenisProvider>
+        <a className="skip-link" href="#main">
+          Aller au contenu
+        </a>
+        <LenisProvider>{children}</LenisProvider>
         <Analytics />
         <SpeedInsights />
       </body>

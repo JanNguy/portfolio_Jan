@@ -1,59 +1,74 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { COORDINATES, LOCATION, TIMEZONE } from "@/data/site";
 
-function getParisTime() {
-  return new Date().toLocaleTimeString("fr-FR", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-    timeZone: "Europe/Paris",
-  });
-}
+const TIME_FORMATTER = new Intl.DateTimeFormat("fr-FR", {
+  timeZone: TIMEZONE,
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: false,
+});
 
+const HOUR_FORMATTER = new Intl.DateTimeFormat("en-GB", {
+  timeZone: TIMEZONE,
+  hour: "2-digit",
+  hour12: false,
+});
+
+/**
+ * Pied de page volontairement sans lien : la navigation vit déjà en haut de
+ * page, et la répéter ici ne ferait que la paraphraser.
+ */
 export default function MainFooter() {
-  const [isOnline, setIsOnline] = useState(true);
-  const [parisTime, setParisTime] = useState(getParisTime());
-  const [isAvailable, setIsAvailable] = useState(true);
+  // Rendu initial neutre : l'heure réelle n'arrive qu'après hydratation,
+  // sinon le serveur et le client divergent.
+  const [time, setTime] = useState("--:--");
+  const [available, setAvailable] = useState(false);
 
   useEffect(() => {
-    setIsOnline(navigator.onLine);
-    const updateOnline = () => setIsOnline(navigator.onLine);
-    window.addEventListener("online", updateOnline);
-    window.addEventListener("offline", updateOnline);
-    const interval = setInterval(() => {
-      const time = getParisTime();
-      setParisTime(time);
-      const hour = parseInt(time.split(":")[0], 10);
-      setIsAvailable(hour >= 9 && hour < 19);
-    }, 1000);
-    return () => {
-      window.removeEventListener("online", updateOnline);
-      window.removeEventListener("offline", updateOnline);
-      clearInterval(interval);
+    const tick = () => {
+      const now = new Date();
+      setTime(TIME_FORMATTER.format(now));
+      const hour = Number(HOUR_FORMATTER.format(now));
+      setAvailable(hour >= 9 && hour < 19);
     };
+
+    tick();
+    const interval = window.setInterval(tick, 30_000);
+    return () => window.clearInterval(interval);
   }, []);
 
   return (
-    <footer className="mt-16 border-t border-zinc-800/60 pt-8 pb-8 sm:mt-20">
-      <div className="mx-auto flex max-w-5xl flex-col gap-6 sm:flex-row sm:items-end sm:justify-between px-4">
-        <div className="space-y-2 text-sm text-zinc-500">
-          <p className="font-medium text-zinc-300">Lyon, France</p>
-          <p className="text-xs text-zinc-600">45.7640° N, 4.8357° E</p>
-          <p className="text-xs text-zinc-600">Europe/Paris (CET/CEST)</p>
+    <footer className="mt-20 border-t border-black/10 sm:mt-28">
+      <div className="shell flex flex-col gap-6 py-10 sm:flex-row sm:items-end sm:justify-between">
+        <div className="space-y-1.5">
+          <p className="times-normal text-neutral-700">
+            {LOCATION} · {COORDINATES}
+          </p>
+          <p className="times-normal text-sm text-neutral-500">{TIMEZONE} (CET/CEST)</p>
         </div>
-        <div className="space-y-2 text-left text-sm sm:text-right">
+
+        <div className="space-y-1.5 sm:text-right">
           <p className="flex items-center gap-2 sm:justify-end">
             <span
-              className={`inline-block h-2 w-2 rounded-full ${isAvailable ? "bg-emerald-500 shadow-emerald-500/50" : "bg-red-500/80 shadow-red-500/50"} shadow-[0_0_8px]`}
-              aria-hidden
+              className={`inline-block h-2 w-2 rounded-full ${
+                available ? "bg-emerald-600" : "bg-neutral-300"
+              }`}
+              aria-hidden="true"
             />
-            <span className={`font-medium ${isAvailable ? "text-emerald-400" : "text-zinc-400"}`}>
-              {isAvailable ? "Disponible (9h-19h)" : "Hors ligne"}
+            <span className="times-normal text-sm text-neutral-600">
+              {available ? "Disponible (9h–19h)" : "Hors ligne"}
             </span>
           </p>
-          <p className="font-mono text-lg text-zinc-300">{parisTime}</p>
+          <p className="font-mono text-sm tabular-nums text-neutral-500">{time} · Paris</p>
         </div>
+      </div>
+
+      <div className="shell pb-10">
+        <p className="times-normal text-xs text-neutral-500">
+          © {new Date().getFullYear()} Jan Nguyen
+        </p>
       </div>
     </footer>
   );
