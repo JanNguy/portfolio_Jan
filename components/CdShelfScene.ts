@@ -37,7 +37,8 @@ const DISC_DURATION = 0.75;
 const SHELF_COLOR = 0xefebe4;
 const BACK_COLOR = 0xe4dfd6;
 const TRAY_COLOR = 0x18181a;
-const DIM_COLOR = 0xf7f6f3;
+/** Fond de page (cf. `body` dans globals.css) : le voile doit s'y fondre. */
+const DIM_COLOR = 0xf9f9f9;
 
 const SERIF = '"Times New Normal", Times, serif';
 
@@ -418,6 +419,7 @@ export class CdShelfScene {
             transparent: true,
             opacity: 0,
             depthWrite: false,
+            toneMapped: false,
         });
         this.dim = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), dimMaterial);
         this.dim.position.z = 2.5;
@@ -777,10 +779,12 @@ export class CdShelfScene {
         const visH = 2 * distance * Math.tan(THREE.MathUtils.degToRad(FOV / 2));
         const visW = visH * aspect;
         const span = CASE_D / 2 + DISC_SLIDE + DISC_R;
+        // Le disque glisse depuis le centre du boîtier : il dépasse de `reach` à droite.
+        const reach = DISC_SLIDE + DISC_R;
         const scale = wide
             ? Math.min((0.62 * visH) / CASE_H, (0.5 * visW) / (CASE_D / 2 + span))
-            : Math.min((0.94 * visW) / (CASE_D / 2 + span), (0.42 * visH) / CASE_H);
-        const offsetX = wide ? -0.2 * visW : -((span - CASE_D / 2) / 2) * scale;
+            : Math.min((0.9 * visW) / (CASE_D / 2 + reach), (0.42 * visH) / CASE_H);
+        const offsetX = wide ? -0.2 * visW : -((reach - CASE_D / 2) / 2) * scale;
         const offsetY = wide ? 0.02 * visH : 0.2 * visH;
 
         this.camera.matrixWorld.extractBasis(this.right, this.up, this.forward);
