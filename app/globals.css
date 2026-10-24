@@ -438,7 +438,6 @@ body::before {
 /* ── Liste des titres ─────────────────────────────────────────────────────── */
 
 .cd-list {
-    margin: 0;
     padding: 0;
     list-style: none;
 }
@@ -507,7 +506,7 @@ body::before {
 
 @media (max-width: 720px) {
     .cd-stage {
-        height: min(40rem, 82vh);
+        height: min(38rem, 78svh);
     }
 
     .cd-card {

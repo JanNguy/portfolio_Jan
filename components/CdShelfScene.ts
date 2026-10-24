@@ -622,8 +622,9 @@ export class CdShelfScene {
 
         // Cadrage : toute l'étagère tient dans le champ, avec une marge.
         const tan = Math.tan(THREE.MathUtils.degToRad(FOV / 2));
-        const margin = 1.1;
         const aspect = this.width / this.height;
+        // En portrait l'étagère est déjà étroite : on la laisse occuper la largeur.
+        const margin = aspect < 1 ? 1.03 : 1.1;
         const fitH = (outerH / 2) * margin / tan;
         const fitW = (outerW / 2) * margin / (tan * aspect);
         this.cameraDistance = Math.max(fitH, fitW) + front;
@@ -860,7 +861,8 @@ export class CdShelfScene {
         });
 
         this.dim.visible = dimLevel > 0.001;
-        this.dim.material.opacity = dimLevel * 0.84;
+        // En portrait la fiche se pose sur l'étagère : le voile doit presque l'effacer.
+        this.dim.material.opacity = dimLevel * (wide ? 0.84 : 0.96);
 
         return busy;
     }
