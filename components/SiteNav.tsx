@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { PLAYLIST_URL } from "@/data/site";
 
 /** Style unique des liens de navigation, partagé par le hero et la barre. */
 export const SITE_LINK_CLASS =
@@ -81,14 +80,13 @@ export default function SiteNav({ variant = "bar", projects }: SiteNavProps) {
                 {separator}
 
                 <li>
-                    <a
-                        className={SITE_LINK_CLASS}
-                        href={PLAYLIST_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    <Link
+                        className={`${SITE_LINK_CLASS} ${isActive("/biblio") ? ACTIVE_CLASS : ""}`}
+                        href="/biblio"
+                        aria-current={isActive("/biblio") ? "page" : undefined}
                     >
-                        Playlist
-                    </a>
+                        Biblio
+                    </Link>
                 </li>
             </ul>
         </nav>

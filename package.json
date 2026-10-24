@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "biblio:sync": "node scripts/sync-biblio.mts"
   },
   "dependencies": {
     "@libsql/client": "^0.18.0",
@@ -19,13 +20,15 @@
     "react-dom": "^19.2.5",
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1",
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^3.4.17",
+    "three": "^0.170.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
     "@types/node": "^22.15.21",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "@types/three": "^0.170.0",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.25.1",
     "eslint-config-next": "^16.2.3",

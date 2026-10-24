@@ -211,16 +211,19 @@ body::before {
 /* ── Écran d'identité (accueil) ──────────────────────────────────────────── */
 /* ═══════════════════════════════════════════════════════════════════════════ */
 
+/* Grille dans le flux : la liste de projets ouverte pousse le pied de page
+   au lieu de passer dessous, et le portrait garde sa colonne sans déborder. */
 .home-hero {
-    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) min(40vw, 540px);
+    column-gap: clamp(2rem, 5vw, 6rem);
+    align-items: start;
     min-height: 100vh;
     min-height: 100svh;
+    padding: 5svh clamp(1.5rem, 4vw, 4rem) 0 2%;
 }
 
 .home-hero__identity {
-    position: absolute;
-    top: 5%;
-    left: 2%;
     max-width: 46rem;
 }
 
@@ -246,19 +249,15 @@ body::before {
 /* ── Portrait ────────────────────────────────────────────────────────────── */
 
 .portrait-speech {
-    position: absolute;
-    /* 45 % : la même hauteur que du temps où le portrait était `fixed`,
-       pour que le premier écran reste identique. */
-    top: 45%;
-    left: 80vw;
-    transform: translate(-50%, -50%);
+    /* Reste visible pendant qu'on parcourt une liste de projets plus haute que l'écran. */
+    position: sticky;
+    top: 2rem;
+    margin-top: clamp(2rem, 12svh, 8rem);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: min(48vw, 540px);
-    max-width: 540px;
-    min-width: 140px;
+    width: 100%;
 }
 
 .portrait-speech-img {
@@ -317,19 +316,236 @@ body::before {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
+/* ── Biblio : étagère de CD ──────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+.cd-stage {
+    position: relative;
+    height: clamp(26rem, 72vh, 46rem);
+}
+
+.cd-stage__canvas {
+    position: absolute;
+    inset: 0;
+}
+
+.cd-stage__loading {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    margin: 0;
+    color: var(--ink-faint);
+}
+
+.cd-stage__tooltip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    max-width: 16rem;
+    padding: 0.45rem 0.65rem;
+    border-radius: 0.4rem;
+    background: rgba(10, 10, 10, 0.88);
+    color: #ffffff;
+    font-size: 0.85rem;
+    line-height: 1.25;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 140ms ease;
+}
+
+.cd-stage__tooltip.is-visible {
+    opacity: 1;
+}
+
+.cd-stage__tooltip-artist {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+/* Fiche du disque en main : à droite sur grand écran, sous le disque sinon. */
+.cd-card {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: min(21rem, 34%);
+    transform: translate(0.75rem, -50%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease, transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cd-card.is-open {
+    transform: translate(0, -50%);
+    opacity: 1;
+    pointer-events: auto;
+    transition-delay: 450ms;
+}
+
+.cd-card__progress {
+    position: relative;
+    height: 1px;
+    margin-top: 1.5rem;
+    overflow: hidden;
+    background: var(--rule);
+}
+
+.cd-card__progress span {
+    position: absolute;
+    inset: 0;
+    background: var(--ink);
+    transform-origin: left;
+    transition: transform 250ms linear;
+}
+
+.cd-card__button {
+    padding: 0.5rem 1.1rem;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    background: var(--ink);
+    color: #ffffff;
+    font-family: 'Times New Normal', Times, serif;
+    font-size: 0.95rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 200ms ease, color 200ms ease;
+}
+
+.cd-card__button:hover {
+    background: transparent;
+    color: var(--ink);
+}
+
+.cd-card__link {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--ink-muted);
+    font-family: 'Times New Normal', Times, serif;
+    font-size: 0.95rem;
+    text-underline-offset: 4px;
+    cursor: pointer;
+}
+
+.cd-card__link:hover {
+    color: var(--ink);
+    text-decoration: underline;
+}
+
+/* ── Liste des titres ─────────────────────────────────────────────────────── */
+
+.cd-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cd-list li {
+    border-top: 1px solid var(--rule);
+}
+
+.cd-list__row {
+    display: grid;
+    grid-template-columns: 2rem 0.7rem minmax(0, 1.2fr) minmax(0, 1fr) 3rem;
+    align-items: baseline;
+    gap: 1rem;
+    width: 100%;
+    padding: 0.95rem 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.cd-list__number,
+.cd-list__duration {
+    font-family: 'Times New Normal', Times, serif;
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-faint);
+}
+
+.cd-list__duration {
+    text-align: right;
+}
+
+.cd-list__swatch {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 2px;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.cd-list__title {
+    overflow: hidden;
+    font-size: 1.15rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    transition: color 200ms ease;
+}
+
+.cd-list__artist {
+    overflow: hidden;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--ink-muted);
+}
+
+.cd-list__row:hover .cd-list__title {
+    color: var(--ink-faint);
+}
+
+.cd-list__row.is-active .cd-list__title {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+@media (max-width: 720px) {
+    .cd-stage {
+        height: min(40rem, 82vh);
+    }
+
+    .cd-card {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        width: auto;
+        padding: 1rem 0 0;
+        transform: translateY(0.75rem);
+    }
+
+    .cd-card.is-open {
+        transform: translateY(0);
+    }
+
+    .cd-list__row {
+        grid-template-columns: 1.6rem 0.6rem minmax(0, 1fr) 2.6rem;
+        gap: 0.75rem;
+    }
+
+    .cd-list__artist {
+        display: none;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
 /* ── Paliers ─────────────────────────────────────────────────────────────── */
 /* ═══════════════════════════════════════════════════════════════════════════ */
 
 @media (max-width: 900px) {
     .home-hero {
+        display: block;
         min-height: 0;
         padding: 3.5rem 1.5rem 2rem;
     }
 
     .home-hero__identity {
-        position: static;
         max-width: 100%;
-        padding: 0;
     }
 
     .home-hero__name {

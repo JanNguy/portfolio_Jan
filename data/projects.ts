@@ -14,27 +14,40 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    slug: "alpaga",
-    title: "Alpaga",
-    description: "Application de chatbot local basée sur Ollama.",
-    link: "https://github.com/JanNguy/alpaga",
-  },
-  {
-    slug: "productsnap",
-    title: "ProductSnap",
-    description: "Application SaaS de génération d'images ciblée e-commerçants.",
-  },
-  {
     slug: "sha-256",
     title: "sha-256",
     description: "Implémentation de l'algorithme SHA-256 en C.",
     link: "https://github.com/JanNguy/sha-256",
   },
   {
-    slug: "faststart",
-    title: "FastStart",
-    description: "Initiateur de projet Bash pour tout type de projets.",
-    link: "https://github.com/JanNguy/FastStart",
+    slug: "tetra",
+    title: "Tetra",
+    description: "Application desktop pour créer et lancer des API mock en local.",
+    link: "https://github.com/JanNguy/Tetra",
+  },
+  {
+    slug: "alpaga",
+    title: "Alpaga",
+    description: "Interface web de chatbot local basée sur Ollama.",
+    link: "https://github.com/JanNguy/alpaga",
+  },
+  {
+    slug: "gameoflife",
+    title: "GameOfLife",
+    description: "Simulation multi-agents fondée sur des profils démographiques et des scénarios.",
+    link: "https://github.com/JanNguy/GameOfLife",
+  },
+  {
+    slug: "rag-implementation",
+    title: "RAG-implementation",
+    description: "Pipeline RAG minimal : PDF, embeddings Ollama et recherche dans Neo4j.",
+    link: "https://github.com/JanNguy/RAG-implementation",
+  },
+  {
+    slug: "mozart",
+    title: "Mozart",
+    description: "Assistant CLI qui route chaque requête vers le modèle d'IA le plus adapté.",
+    link: "https://github.com/JanNguy/mozart",
   },
   {
     slug: "other",

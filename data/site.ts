@@ -5,9 +5,6 @@
 
 export const EMAIL = "jan.nguyen694@icloud.com";
 
-export const PLAYLIST_URL =
-  "https://open.spotify.com/playlist/0refPTgAoFlDIZo2wTgSYR?si=704fbeb7c10f4514";
-
 export const GITHUB_URL = "https://github.com/JanNguy";
 
 export const LINKEDIN_URL = "https://www.linkedin.com/in/jan-nguyen-0aa40b315/";
