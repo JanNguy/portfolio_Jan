@@ -78,12 +78,35 @@ function seeded(seed: number) {
     };
 }
 
-function makeCanvas(width: number, height: number) {
+/**
+ * Appareil contraint (mobile) : 44 boîtiers × 4 textures pleine définition
+ * dépassent la mémoire canvas d'iOS Safari, qui recharge alors la page à blanc.
+ */
+function isConstrained() {
+    return (
+        window.matchMedia("(pointer: coarse)").matches ||
+        Math.min(window.screen.width, window.screen.height) < 768
+    );
+}
+
+function makeCanvas(width: number, height: number, scale: number) {
     const canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = Math.round(width * scale);
+    canvas.height = Math.round(height * scale);
     return { canvas, ctx: canvas.getContext("2d")! };
 }
+
+/** Contexte 2D en coordonnées logiques : le dessin ignore la définition réelle. */
+function logical(texture: THREE.CanvasTexture, width: number, height: number) {
+    const canvas = texture.image as HTMLCanvasElement;
+    const ctx = canvas.getContext("2d")!;
+    ctx.setTransform(canvas.width / width, 0, 0, canvas.height / height, 0, 0);
+    return { ctx, width, height };
+}
+
+const SPINE_SIZE = [128, 1600] as const;
+const FACE_SIZE = [1136, 1000] as const;
+const LABEL_SIZE = 512;
 
 /**
  * Réduit la police jusqu'à ce que le texte tienne dans `maxWidth`.
@@ -127,12 +150,13 @@ class CdTextures {
         private readonly total: number,
         private readonly sans: string,
         anisotropy: number,
+        scale: number,
         private readonly onChange: () => void,
     ) {
-        this.spine = this.texture(makeCanvas(128, 1600).canvas, anisotropy);
-        this.cover = this.texture(makeCanvas(1136, 1000).canvas, anisotropy);
-        this.back = this.texture(makeCanvas(1136, 1000).canvas, anisotropy);
-        this.label = this.texture(makeCanvas(512, 512).canvas, anisotropy);
+        this.spine = this.texture(makeCanvas(...SPINE_SIZE, scale).canvas, anisotropy);
+        this.cover = this.texture(makeCanvas(...FACE_SIZE, scale).canvas, anisotropy);
+        this.back = this.texture(makeCanvas(...FACE_SIZE, scale).canvas, anisotropy);
+        this.label = this.texture(makeCanvas(LABEL_SIZE, LABEL_SIZE, scale).canvas, anisotropy);
         this.drawAll();
 
         const image = new Image();
@@ -170,9 +194,7 @@ class CdTextures {
     }
 
     private drawSpine() {
-        const canvas = this.spine.image as HTMLCanvasElement;
-        const ctx = canvas.getContext("2d")!;
-        const { width, height } = canvas;
+        const { ctx, width, height } = logical(this.spine, ...SPINE_SIZE);
 
         ctx.fillStyle = this.bg;
         ctx.fillRect(0, 0, width, height);
@@ -225,9 +247,7 @@ class CdTextures {
     }
 
     private drawCover() {
-        const canvas = this.cover.image as HTMLCanvasElement;
-        const ctx = canvas.getContext("2d")!;
-        const { width, height } = canvas;
+        const { ctx, width, height } = logical(this.cover, ...FACE_SIZE);
         const hinge = width - height;
 
         ctx.fillStyle = this.bg;
@@ -254,9 +274,7 @@ class CdTextures {
     }
 
     private drawBack() {
-        const canvas = this.back.image as HTMLCanvasElement;
-        const ctx = canvas.getContext("2d")!;
-        const { width, height } = canvas;
+        const { ctx, width, height } = logical(this.back, ...FACE_SIZE);
         const pad = 90;
 
         ctx.fillStyle = this.bg;
@@ -292,9 +310,7 @@ class CdTextures {
     }
 
     private drawLabel() {
-        const canvas = this.label.image as HTMLCanvasElement;
-        const ctx = canvas.getContext("2d")!;
-        const { width } = canvas;
+        const { ctx, width } = logical(this.label, LABEL_SIZE, LABEL_SIZE);
 
         ctx.fillStyle = this.bg;
         ctx.fillRect(0, 0, width, width);
@@ -342,6 +358,7 @@ export class CdShelfScene {
 
     private width = 1;
     private height = 1;
+    private readonly constrained: boolean;
     private perRow = 0;
     private cameraDistance = 50;
     private readonly cameraBase = new THREE.Vector3();
@@ -363,9 +380,10 @@ export class CdShelfScene {
         private readonly tooltip: HTMLElement | null,
     ) {
         this.reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        this.constrained = isConstrained();
 
-        this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        this.renderer = new THREE.WebGLRenderer({ antialias: !this.constrained, alpha: true });
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, this.constrained ? 1.5 : 2));
         this.renderer.setClearColor(0x000000, 0);
         this.renderer.outputColorSpace = THREE.SRGBColorSpace;
         this.renderer.toneMapping = THREE.NeutralToneMapping;
@@ -387,7 +405,8 @@ export class CdShelfScene {
         this.scene.add(new THREE.HemisphereLight(0xffffff, 0xd8d2c8, 0.9));
         this.sun = new THREE.DirectionalLight(0xfff6ea, 2.1);
         this.sun.castShadow = true;
-        this.sun.shadow.mapSize.set(2048, 2048);
+        const shadowSize = this.constrained ? 1024 : 2048;
+        this.sun.shadow.mapSize.set(shadowSize, shadowSize);
         this.sun.shadow.bias = -0.0004;
         this.sun.shadow.normalBias = 0.03;
         this.sun.shadow.radius = 5;
@@ -430,7 +449,11 @@ export class CdShelfScene {
 
     private buildCds() {
         const sans = siteSans();
-        const anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+        const anisotropy = Math.min(
+            this.renderer.capabilities.getMaxAnisotropy(),
+            this.constrained ? 4 : 16,
+        );
+        const scale = this.constrained ? 0.5 : 1;
         const random = seeded(7);
 
         const box = new THREE.BoxGeometry(CASE_W, CASE_H, CASE_D);
@@ -463,7 +486,7 @@ export class CdShelfScene {
         this.disposables.push(box, trayMaterial, labelRing, hubRing, backRing, discBack, hubMaterial);
 
         this.tracks.forEach((track, index) => {
-            const textures = new CdTextures(track, index, this.tracks.length, sans, anisotropy, () =>
+            const textures = new CdTextures(track, index, this.tracks.length, sans, anisotropy, scale, () =>
                 this.start(),
             );
             this.textures.push(textures);
